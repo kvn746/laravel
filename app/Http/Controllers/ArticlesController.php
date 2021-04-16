@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Articles;
-use App\Exceptions\Handler;
+use App\Http\FormRequest;
 use App\Services;
-use Illuminate\Http\Request;
 
 class ArticlesController extends Controller
 {
@@ -16,7 +15,7 @@ class ArticlesController extends Controller
         return view('articles.index', compact('articles'));
     }
 
-    public function add()
+    public function create()
     {
         return view('articles.create');
     }
@@ -26,23 +25,45 @@ class ArticlesController extends Controller
         return view('articles.show', compact('article'));
     }
 
-    public function create()
+    public function store()
+    {
+        $data = FormRequest::articleValidate(request());
+
+        Articles::create($data);
+
+        \Session::flash('message', 'Статья "' . $data['slug'] . '" успешно создана!');
+
+        return redirect()->route('articles.index');
+    }
+
+    public function edit(Articles $article)
+    {
+        return view('articles.edit', compact('article'));
+    }
+
+    public function update(Articles $article)
     {
         $slug = Services::getSlug(request('title'));
 
-        request()->request->add(['slug' => Services::getSlug(request('title'))]);
+        if ($article->slug == $slug) {
+            $slug = false;
+        }
 
-        $data = $this->validate(request(), [
-            'title' => 'required|min:5|max:100',
-            'description' => 'required|max:255',
-            'text' => 'required',
-            'slug' => 'unique:articles,slug',
-        ]);
+        $data = FormRequest::articleValidate(request(), $slug);
 
-        $data = array_merge($data, ['is_public' => (bool) request('is_public')]);
+        $article->update($data);
 
-         Articles::create($data);
+        \Session::flash('message', 'Статья "' . $article->slug . '" успешно изменена!');
 
-        return redirect()->route('articles');
+        return redirect()->route('articles.index');
+    }
+
+    public function destroy(Articles $article)
+    {
+        $article->delete();
+
+        \Session::flash('message', 'Статья "' . $article->slug . '" успешно удалена!');
+
+        return redirect()->route('articles.index');
     }
 }

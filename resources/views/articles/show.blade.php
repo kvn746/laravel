@@ -15,8 +15,11 @@
             {{ $article->text }}
 
         </article>
+        <div>
+            <a href="{{ Route('articles.index') . '/' . $article->slug . '/edit' }}">Редактировать</a>
+        </div>
         <div class="border-top">
-            <a  href="{{ route('articles') }}">К списку статей</a>
+            <a  href="{{ route('articles.index') }}">К списку статей</a>
         </div>
     </div>
 @endsection

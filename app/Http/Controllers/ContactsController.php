@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Contacts;
-use Illuminate\Http\Request;
 
 class ContactsController extends Controller
 {
@@ -21,6 +20,11 @@ class ContactsController extends Controller
 
     public function create()
     {
+
+    }
+
+    public function store()
+    {
         Contacts::create(
             $this->validate(request(), [
                 'email' => 'required|email:rfc,dns',
@@ -28,6 +32,21 @@ class ContactsController extends Controller
             ])
         );
 
-        return redirect()->route('contacts');
+        return redirect()->route('contacts.index');
+    }
+
+    public function edit(Contacts $contact)
+    {
+
+    }
+
+    public function update(Contacts $contact)
+    {
+
+    }
+
+    public function destroy(Contacts $contact)
+    {
+
     }
 }

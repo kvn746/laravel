@@ -13,23 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-})->name('main');
+Route::view('/', 'index')->name('main');
+Route::view('/about', 'about')->name('about');
 
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
+Route::resource('articles', 'ArticlesController');
+Route::resource('contacts', 'ContactsController');
 
-Route::get('/about/us', function () {
-    return view('about_us', compact('title', 'h1', 'description'));
-})->name('about.us');
-
-Route::get('articles', 'ArticlesController@index')->name('articles');
-Route::get('articles/create', 'ArticlesController@add')->name('articles.create');
-Route::get('articles/{article}', 'ArticlesController@show')->name('articles.show');
-Route::post('articles', 'ArticlesController@create');
-
-Route::get('contacts', 'ContactsController@index')->name('contacts');
 Route::get('admin/feedback', 'ContactsController@show')->name('admin.feedback');
-Route::post('contacts', 'ContactsController@create');
