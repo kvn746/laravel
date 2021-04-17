@@ -8,19 +8,19 @@ class ContactsController extends Controller
 {
     public function index()
     {
-        return view('contacts');
-    }
-
-    public function show()
-    {
         $messages = Contacts::latest()->get();
 
         return view('admin.feedback', compact('messages'));
     }
 
-    public function create()
+    public function show()
     {
 
+    }
+
+    public function create()
+    {
+        return view('contacts');
     }
 
     public function store()
@@ -31,8 +31,9 @@ class ContactsController extends Controller
                 'message' => 'required',
             ])
         );
+        \Session::flash('message', 'Ваше сообщение успешно отправлено!');
 
-        return redirect()->route('contacts.index');
+        return redirect()->route('contacts.create');
     }
 
     public function edit(Contacts $contact)

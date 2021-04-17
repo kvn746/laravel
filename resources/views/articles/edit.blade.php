@@ -7,7 +7,7 @@
         <h3 class="pb-4 mb-4 fst-italic border-bottom">
             Изменить статью
         </h3>
-        <form method="POST" action="{{ Route('articles.index') . '/' . $article->slug }}">
+        <form method="POST" action="{{ route('articles.update', ['article' => $article]) }}">
 
             @csrf
             @method("PATCH")
@@ -15,7 +15,7 @@
 
             <button type="submit" class="btn btn-primary">Изменить статью</button>
         </form>
-        <form method="POST" action="{{ Route('articles.index') . '/' . $article->slug }}">
+        <form method="POST" action="{{ route('articles.destroy', ['article' => $article]) }}">
 
             @csrf
             @method("DELETE")

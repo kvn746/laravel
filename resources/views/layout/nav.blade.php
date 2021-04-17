@@ -21,7 +21,7 @@
             <a class="p-2 link-secondary" href="{{ route('main') }}">Главная</a>
             <a class="p-2 link-secondary" href="{{ route('about') }}">О нас</a>
             <a class="p-2 link-secondary" href="{{ route('articles.index') }}">Статьи</a>
-            <a class="p-2 link-secondary" href="{{ route('contacts.index') }}">Контакты</a>
+            <a class="p-2 link-secondary" href="{{ route('contacts.create') }}">Контакты</a>
             <a class="p-2 link-secondary" href="{{ route('articles.create') }}">Добавить статью</a>
             <a class="p-2 link-secondary" href="{{ route('admin.feedback') }}">Сообщения</a>
         </nav>

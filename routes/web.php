@@ -19,4 +19,4 @@ Route::view('/about', 'about')->name('about');
 Route::resource('articles', 'ArticlesController');
 Route::resource('contacts', 'ContactsController');
 
-Route::get('admin/feedback', 'ContactsController@show')->name('admin.feedback');
+Route::get('admin/feedback', 'ContactsController@index')->name('admin.feedback');
