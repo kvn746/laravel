@@ -13,11 +13,6 @@ class ContactsController extends Controller
         return view('admin.feedback', compact('messages'));
     }
 
-    public function show()
-    {
-
-    }
-
     public function create()
     {
         return view('contacts');
@@ -34,20 +29,5 @@ class ContactsController extends Controller
         \Session::flash('message', 'Ваше сообщение успешно отправлено!');
 
         return redirect()->route('contacts.create');
-    }
-
-    public function edit(Contacts $contact)
-    {
-
-    }
-
-    public function update(Contacts $contact)
-    {
-
-    }
-
-    public function destroy(Contacts $contact)
-    {
-
     }
 }

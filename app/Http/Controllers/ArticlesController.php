@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Articles;
 use App\Http\FormRequest;
-use App\Services;
+use App\Http\Requests\ArticleFormRequest;
 
 class ArticlesController extends Controller
 {
@@ -25,13 +25,11 @@ class ArticlesController extends Controller
         return view('articles.show', compact('article'));
     }
 
-    public function store()
+    public function store(ArticleFormRequest $request)
     {
-        $data = FormRequest::articleValidate(request());
+        Articles::create($request->validated());
 
-        Articles::create($data);
-
-        \Session::flash('message', 'Статья "' . $data['slug'] . '" успешно создана!');
+        \Session::flash('message', 'Статья "' . $request->request->get('slug') . '" успешно создана!');
 
         return redirect()->route('articles.index');
     }
@@ -41,19 +39,11 @@ class ArticlesController extends Controller
         return view('articles.edit', compact('article'));
     }
 
-    public function update(Articles $article)
+    public function update(Articles $article, ArticleFormRequest $request)
     {
-        $slug = Services::getSlug(request('title'));
+        $article->update($request->validated());
 
-        if ($article->slug == $slug) {
-            $slug = false;
-        }
-
-        $data = FormRequest::articleValidate(request(), $slug);
-
-        $article->update($data);
-
-        \Session::flash('message', 'Статья "' . $article->slug . '" успешно изменена!');
+        \Session::flash('message', 'Статья "' . $request->request->get('slug') . '" успешно изменена!');
 
         return redirect()->route('articles.index');
     }
