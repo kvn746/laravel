@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Articles;
+use App\Article;
 use App\Http\FormRequest;
 use App\Http\Requests\ArticleFormRequest;
+use App\Services\TagsSynchronizer;
 
 class ArticlesController extends Controller
 {
     public function index()
     {
-        $articles = Articles::where('is_public', 1)->latest()->get();
+        $articles = Article::with('tags')->where('is_public', 1)->latest()->get();
 
         return view('articles.index', compact('articles'));
     }
@@ -20,35 +21,39 @@ class ArticlesController extends Controller
         return view('articles.create');
     }
 
-    public function show(Articles $article)
+    public function show(Article $article)
     {
         return view('articles.show', compact('article'));
     }
 
     public function store(ArticleFormRequest $request)
     {
-        Articles::create($request->validated());
+        Article::create($request->validated());
 
         \Session::flash('message', 'Статья "' . $request->request->get('slug') . '" успешно создана!');
 
         return redirect()->route('articles.index');
     }
 
-    public function edit(Articles $article)
+    public function edit(Article $article)
     {
         return view('articles.edit', compact('article'));
     }
 
-    public function update(Articles $article, ArticleFormRequest $request)
+    public function update(Article $article, ArticleFormRequest $request, TagsSynchronizer $tagsSync)
     {
         $article->update($request->validated());
+
+        $tags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
+
+        $tagsSync->sync($tags, $article);
 
         \Session::flash('message', 'Статья "' . $request->request->get('slug') . '" успешно изменена!');
 
         return redirect()->route('articles.index');
     }
 
-    public function destroy(Articles $article)
+    public function destroy(Article $article)
     {
         $article->delete();
 

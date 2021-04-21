@@ -10,7 +10,7 @@
         <form method="POST" action="{{ route('articles.store') }}">
 
             @csrf
-            @include('articles.fields', ['article' => new App\Articles()])
+            @include('articles.fields', ['article' => new App\Article()])
 
             <button type="submit" class="btn btn-primary">Сохранить статью</button>
         </form>

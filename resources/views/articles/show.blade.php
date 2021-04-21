@@ -14,6 +14,8 @@
 
             {{ $article->text }}
 
+            @include('articles.tags', ['tags' => $article->tags])
+
         </article>
         <div>
             <a href="{{ route('articles.edit', ['article' => $article]) }}">Редактировать</a>
