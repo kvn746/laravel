@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Articles;
-use App\Exceptions\Handler;
-use App\Services;
-use Illuminate\Http\Request;
+use App\Http\FormRequest;
+use App\Http\Requests\ArticleFormRequest;
 
 class ArticlesController extends Controller
 {
@@ -16,7 +15,7 @@ class ArticlesController extends Controller
         return view('articles.index', compact('articles'));
     }
 
-    public function add()
+    public function create()
     {
         return view('articles.create');
     }
@@ -26,23 +25,35 @@ class ArticlesController extends Controller
         return view('articles.show', compact('article'));
     }
 
-    public function create()
+    public function store(ArticleFormRequest $request)
     {
-        $slug = Services::getSlug(request('title'));
+        Articles::create($request->validated());
 
-        request()->request->add(['slug' => Services::getSlug(request('title'))]);
+        \Session::flash('message', 'Статья "' . $request->request->get('slug') . '" успешно создана!');
 
-        $data = $this->validate(request(), [
-            'title' => 'required|min:5|max:100',
-            'description' => 'required|max:255',
-            'text' => 'required',
-            'slug' => 'unique:articles,slug',
-        ]);
+        return redirect()->route('articles.index');
+    }
 
-        $data = array_merge($data, ['is_public' => (bool) request('is_public')]);
+    public function edit(Articles $article)
+    {
+        return view('articles.edit', compact('article'));
+    }
 
-         Articles::create($data);
+    public function update(Articles $article, ArticleFormRequest $request)
+    {
+        $article->update($request->validated());
 
-        return redirect()->route('articles');
+        \Session::flash('message', 'Статья "' . $request->request->get('slug') . '" успешно изменена!');
+
+        return redirect()->route('articles.index');
+    }
+
+    public function destroy(Articles $article)
+    {
+        $article->delete();
+
+        \Session::flash('message', 'Статья "' . $article->slug . '" успешно удалена!');
+
+        return redirect()->route('articles.index');
     }
 }

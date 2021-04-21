@@ -2,7 +2,7 @@
 
 namespace App;
 
-class Contacts extends Model
+class Contacts extends \Illuminate\Database\Eloquent\Model
 {
-    //
+    protected $fillable = ['email', 'message'];
 }
