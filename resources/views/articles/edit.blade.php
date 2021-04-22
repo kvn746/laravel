@@ -22,5 +22,8 @@
 
             <button type="submit" class="btn btn-danger">Удалить статью</button>
         </form>
+        <div class="border-top">
+            <a  href="{{ route('articles.index') }}">К списку статей</a>
+        </div>
     </div>
 @endsection
