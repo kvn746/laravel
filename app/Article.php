@@ -2,7 +2,7 @@
 
 namespace App;
 
-class Article extends \Illuminate\Database\Eloquent\Model
+class Article extends \Illuminate\Database\Eloquent\Model implements Taggable
 {
     protected $fillable = ['slug', 'title', 'description', 'text', 'is_public'];
 

@@ -20,6 +20,6 @@ class Tag extends Model
 
     public static function tagsCloud()
     {
-        return (new static)->has('articles')->get();
+        return static::has('articles')->get();
     }
 }

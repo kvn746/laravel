@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'index')->name('main');
 Route::view('/about', 'about')->name('about');
 
-Route::get('/articles/tags/{tag}', 'TagsController@index');
+Route::get('/articles/tags/{tag}', 'TagsController@index')->name('articles.tags');
 
 Route::resource('articles', 'ArticlesController');
 
