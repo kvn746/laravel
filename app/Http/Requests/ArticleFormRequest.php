@@ -17,6 +17,7 @@ class ArticleFormRequest extends FormRequest
         }
 
         $this->request->set('is_public', (bool) $this->request->get('is_public'));
+        $this->request->set('owner_id', auth()->id());
     }
 
     public function authorize()
@@ -29,6 +30,7 @@ class ArticleFormRequest extends FormRequest
     public function rules()
     {
         return [
+            'owner_id' => 'required',
             'title' => 'required|min:5|max:100',
             'description' => 'required|max:255',
             'text' => 'required',
@@ -47,6 +49,7 @@ class ArticleFormRequest extends FormRequest
             'description.max' => 'Описание максимум 255 символов',
             'text.required' => 'Введите текст статьи',
             'slug.unique' => 'Название статьи не уникально',
+            'owner_id.required' => 'Пользователь не найден',
         ];
     }
 }
