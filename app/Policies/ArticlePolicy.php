@@ -53,7 +53,7 @@ class ArticlePolicy
      */
     public function update(User $user, Article $article)
     {
-        return $article->owner_id == $user->id;
+        return $article->owner_id == $user->id || $user->isAdmin() || $user->isModerator();
     }
 
     /**
