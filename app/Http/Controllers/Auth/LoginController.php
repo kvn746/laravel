@@ -41,6 +41,6 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        \Session::flash('message', 'Вы авторизовались как "' . \auth()->user()->name) . '"';
+        \Session::flash('message', 'Вы авторизовались как "' . \auth()->user()->name . '"');
     }
 }

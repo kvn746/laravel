@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\UserRoles;
 
 class CreateUserRolesTable extends Migration
 {
@@ -20,11 +21,11 @@ class CreateUserRolesTable extends Migration
             $table->timestamps();
         });
 
-        DB::table('user_roles')->insert(
+        UserRoles::insert(
             [
                 [
-                    'name' => 'guest',
-                    'description' => 'Незарегистрированный пользователь',
+                    'name' => 'registered',
+                    'description' => 'Зарегистрированный пользователь',
                 ],
                 [
                     'name' => 'moderator',

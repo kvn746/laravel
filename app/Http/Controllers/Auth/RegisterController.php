@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use App\UserRoles;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -69,11 +70,12 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'role' => UserRoles::where('name', 'registered')->first('id')->id ?? UserRoles::first('id')->id,
         ]);
     }
 
     protected function registered(Request $request, $user)
     {
-        \Session::flash('message', 'Вы зарегистрировались как "' . \auth()->user()->name) . '"';
+        \Session::flash('message', 'Вы зарегистрировались как "' . \auth()->user()->name . '"');
     }
 }
