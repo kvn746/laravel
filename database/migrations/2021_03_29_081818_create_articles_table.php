@@ -16,11 +16,14 @@ class CreateArticlesTable extends Migration
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
             $table->string('slug')->unique();
+            $table->unsignedBigInteger('owner_id');
             $table->string('title');
             $table->string('description');
             $table->text('text');
             $table->boolean('is_public');
             $table->timestamps();
+
+            $table->foreign('owner_id')->references('id')->on('users')->onDelete('no action');
         });
     }
 

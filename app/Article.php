@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model implements Taggable
 {
-    protected $fillable = ['slug', 'title', 'description', 'text', 'is_public'];
+    protected $fillable = ['slug', 'title', 'description', 'text', 'is_public', 'owner_id'];
 
     public function getRouteKeyName()
     {
