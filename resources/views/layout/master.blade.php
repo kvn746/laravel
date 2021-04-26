@@ -11,6 +11,12 @@
     <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="/css/blog.css" rel="stylesheet">
+
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
 
@@ -20,7 +26,9 @@
         </div>
     @endif
 
+
     @include('layout.nav')
+
 
     <main role="main" class="container">
         <div class="row">
@@ -29,12 +37,16 @@
 
             @yield('content')
 
-            @include('layout.sidebar')
+            @section('sidebar')
+                @include('layout.sidebar')
+            @show
 
         </div>
     </main>
 
     @include('layout.footer')
+
+    <script src="{{ asset('js/app.js') }}" defer></script>
 
 </body>
 </html>

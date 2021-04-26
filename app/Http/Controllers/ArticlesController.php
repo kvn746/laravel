@@ -9,6 +9,11 @@ use App\Services\TagsSynchronizer;
 
 class ArticlesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['index','show']]);
+    }
+
     public function index()
     {
         $articles = Article::with('tags')->where('is_public', 1)->latest()->get();
@@ -26,9 +31,13 @@ class ArticlesController extends Controller
         return view('articles.show', compact('article'));
     }
 
-    public function store(ArticleFormRequest $request)
+    public function store(ArticleFormRequest $request, TagsSynchronizer $tagsSync)
     {
-        Article::create($request->validated());
+        $tags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
+
+        $article = Article::create($request->validated());
+
+        $tagsSync->sync($tags, $article);
 
         \Session::flash('message', 'Статья "' . $request->request->get('slug') . '" успешно создана!');
 
@@ -37,6 +46,8 @@ class ArticlesController extends Controller
 
     public function edit(Article $article)
     {
+        $this->authorize('update', $article);
+
         return view('articles.edit', compact('article'));
     }
 

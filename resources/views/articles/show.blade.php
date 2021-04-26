@@ -18,7 +18,9 @@
 
         </article>
         <div>
-            <a href="{{ route('articles.edit', ['article' => $article]) }}">Редактировать</a>
+            @can('update', $article)
+                <a href="{{ route('articles.edit', ['article' => $article]) }}">Редактировать</a>
+            @endcan
         </div>
         <div class="border-top">
             <a  href="{{ route('articles.index') }}">К списку статей</a>
