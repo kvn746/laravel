@@ -3,6 +3,8 @@
 namespace App;
 
 use App\Events\ArticleCreated;
+use App\Events\ArticleDeleted;
+use App\Events\ArticleUpdated;
 use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model implements Taggable
@@ -11,6 +13,8 @@ class Article extends Model implements Taggable
 
     protected $dispatchesEvents = [
         'created' => ArticleCreated::class,
+        'updated' => ArticleUpdated::class,
+        'deleted' => ArticleDeleted::class,
     ];
 
     public function getRouteKeyName()

@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\ArticleCreated;
+use App\Events\ArticleUpdated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class SendArticleCreatedNotification
+class SendArticleUpdatedNotification
 {
     /**
      * Create the event listener.
@@ -21,14 +21,14 @@ class SendArticleCreatedNotification
     /**
      * Handle the event.
      *
-     * @param  ArticleCreated  $event
+     * @param  ArticleUpdated  $event
      * @return void
      */
-    public function handle(ArticleCreated $event)
+    public function handle(ArticleUpdated $event)
     {
         \Mail::to($event->administrators)->send(
-            new \App\Mail\ArticleCreated($event->article)
+            new \App\Mail\ArticleUpdated($event->article)
         );
-        flash('Статья "' . $event->article->title . '" успешно создана!');
+        flash('Статья "' . $event->article->title . '" успешно изменена!');
     }
 }

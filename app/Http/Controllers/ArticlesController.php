@@ -65,16 +65,12 @@ class ArticlesController extends Controller
 
         $tagsSync->sync($tags, $article);
 
-        flash('Статья "' . $request->request->get('title') . '" успешно изменена!');
-
         return redirect()->route('articles.index');
     }
 
     public function destroy(Article $article)
     {
         $article->delete();
-
-        flash('Статья "' . $article->title . '" успешно удалена!', 'warning');
 
         return redirect()->route('articles.index');
     }

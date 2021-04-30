@@ -7,7 +7,7 @@ use App\User;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ArticleCreated
+class ArticleUpdated
 {
     use Dispatchable, SerializesModels;
 
