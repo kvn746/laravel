@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\ArticleDeleted;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use App\User;
 
 class SendArticleDeletedNotification
 {
@@ -26,7 +27,7 @@ class SendArticleDeletedNotification
      */
     public function handle(ArticleDeleted $event)
     {
-        \Mail::to($event->administrators)->send(
+        \Mail::to((new User())->getAllAdministratorsEmail())->send(
             new \App\Mail\ArticleDeleted($event->article)
         );
         flash('Статья "' . $event->article->title . '" успешно удалена!', 'warning');
