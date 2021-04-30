@@ -33,13 +33,15 @@ class ArticlesController extends Controller
 
     public function store(ArticleFormRequest $request, TagsSynchronizer $tagsSync)
     {
-        $tags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
+        if (request('tags')) {
+            $tags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
+        } else {
+            $tags = collect();
+        }
 
         $article = Article::create($request->validated());
 
         $tagsSync->sync($tags, $article);
-
-        \Session::flash('message', 'Статья "' . $request->request->get('slug') . '" успешно создана!');
 
         return redirect()->route('articles.index');
     }
@@ -55,11 +57,15 @@ class ArticlesController extends Controller
     {
         $article->update($request->validated());
 
-        $tags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
+        if (request('tags')) {
+            $tags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
+        } else {
+            $tags = collect();
+        }
 
         $tagsSync->sync($tags, $article);
 
-        \Session::flash('message', 'Статья "' . $request->request->get('slug') . '" успешно изменена!');
+        flash('Статья "' . $request->request->get('title') . '" успешно изменена!');
 
         return redirect()->route('articles.index');
     }
@@ -68,7 +74,7 @@ class ArticlesController extends Controller
     {
         $article->delete();
 
-        \Session::flash('message', 'Статья "' . $article->slug . '" успешно удалена!');
+        flash('Статья "' . $article->title . '" успешно удалена!', 'warning');
 
         return redirect()->route('articles.index');
     }
