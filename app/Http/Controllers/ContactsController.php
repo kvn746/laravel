@@ -26,7 +26,7 @@ class ContactsController extends Controller
                 'message' => 'required',
             ])
         );
-        \Session::flash('message', 'Ваше сообщение успешно отправлено!');
+        flash('Ваше сообщение успешно отправлено!');
 
         return redirect()->route('contacts.create');
     }
