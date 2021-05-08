@@ -5,6 +5,11 @@ namespace App;
 
 class Services
 {
+    public static function getAllAdministratorsEmail()
+    {
+        return User::where('role', UserRoles::select('id')->where('name', 'administrator')->first()->id)->get('email');
+    }
+
     public static function getSlug($text)
     {
         $text = static::rusToLat($text);

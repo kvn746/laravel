@@ -3,9 +3,9 @@
 namespace App\Listeners;
 
 use App\Events\ArticleUpdated;
+use App\Services;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use App\User;
 
 class SendArticleUpdatedNotification
 {
@@ -27,7 +27,7 @@ class SendArticleUpdatedNotification
      */
     public function handle(ArticleUpdated $event)
     {
-        \Mail::to((new User())->getAllAdministratorsEmail())->send(
+        \Mail::to(Services::getAllAdministratorsEmail())->send(
             new \App\Mail\ArticleUpdated($event->article)
         );
         flash('Статья "' . $event->article->title . '" успешно изменена!');

@@ -56,9 +56,4 @@ class User extends Authenticatable
     {
         return $this->userRoles->name == 'moderator';
     }
-
-    public function getAllAdministratorsEmail()
-    {
-        return static::where('role', UserRoles::select('id')->where('name', 'administrator')->first()->id)->get('email');
-    }
 }

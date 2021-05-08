@@ -5,7 +5,7 @@ namespace App\Listeners;
 use App\Events\ArticleCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use App\User;
+use App\Services;
 
 class SendArticleCreatedNotification
 {
@@ -27,7 +27,7 @@ class SendArticleCreatedNotification
      */
     public function handle(ArticleCreated $event)
     {
-        \Mail::to((new User())->getAllAdministratorsEmail())->send(
+        \Mail::to(Services::getAllAdministratorsEmail())->send(
             new \App\Mail\ArticleCreated($event->article)
         );
         flash('Статья "' . $event->article->title . '" успешно создана!');
