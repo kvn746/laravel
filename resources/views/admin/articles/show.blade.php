@@ -1,4 +1,4 @@
-@extends('layout.master')
+@extends('admin.master')
 
 @section('title', 'Статья "' . $article->title . '"')
 
@@ -14,20 +14,16 @@
 
             {{ $article->text }}
 
-            @include('articles.tags', ['tags' => $article->tags])
+            @include('admin.articles.tags', ['tags' => $article->tags])
 
         </article>
         <div>
-            @editor
+            @can('update', $article)
                 <a href="{{ route('admin.articles.edit', ['article' => $article]) }}">Редактировать</a>
-            @else
-                @can('update', $article)
-                    <a href="{{ route('articles.edit', ['article' => $article]) }}">Редактировать</a>
-                @endcan
-            @endeditor
+            @endcan
         </div>
         <div class="border-top">
-            <a  href="{{ route('articles.index') }}">К списку статей</a>
+            <a  href="{{ route('admin.articles.index') }}">К списку статей</a>
         </div>
     </div>
 @endsection
