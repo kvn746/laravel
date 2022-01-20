@@ -16,15 +16,15 @@ class ArticlesController extends Controller
 
     public function index()
     {
-        if (auth()->check()) {
-            if (auth()->user()->isAdmin() || auth()->user()->isModerator()) {
-                $articles = Article::with('tags')->latest()->get();
-            } else {
-                $articles = Article::with('tags')->where('is_public', 1)->orWhere('owner_id', auth()->user()->id)->latest()->get();
-            }
-        } else {
-            $articles = Article::with('tags')->where('is_public', 1)->latest()->get();
-        }
+        $articles = Article::with('tags')
+            ->when(! auth()->user()->isAdmin() && ! auth()->user()->isModerator(), function ($query) {
+                return $query->where('is_public', 1)
+                    ->when(auth()->check(), function ($query) {
+                        return $query->orWhere('owner_id', auth()->user()->id);
+                    });
+            })
+            ->latest()
+            ->get();
 
         return view('articles.index', compact('articles'));
     }
@@ -54,6 +54,7 @@ class ArticlesController extends Controller
         if (auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isModerator())) {
             return redirect()->route('admin.articles.index');
         }
+
         return redirect()->route('articles.index');
     }
 
