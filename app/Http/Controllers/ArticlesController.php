@@ -6,6 +6,7 @@ use App\Article;
 use App\Http\FormRequest;
 use App\Http\Requests\ArticleFormRequest;
 use App\Services\TagsSynchronizer;
+use App\Services\ArticleSavable;
 
 class ArticlesController extends Controller
 {
@@ -17,7 +18,7 @@ class ArticlesController extends Controller
     public function index()
     {
         $articles = Article::with('tags')
-            ->when(! auth()->user()->isAdmin() && ! auth()->user()->isModerator(), function ($query) {
+            ->when(! auth()->check() || (! auth()->user()->isAdmin() && ! auth()->user()->isModerator()), function ($query) {
                 return $query->where('is_public', 1)
                     ->when(auth()->check(), function ($query) {
                         return $query->orWhere('owner_id', auth()->user()->id);
@@ -39,21 +40,9 @@ class ArticlesController extends Controller
         return view('articles.show', compact('article'));
     }
 
-    public function store(ArticleFormRequest $request, TagsSynchronizer $tagsSync)
+    public function store(ArticleFormRequest $request, TagsSynchronizer $tagsSync, ArticleSavable $createArticle)
     {
-        if (request('tags')) {
-            $tags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
-        } else {
-            $tags = collect();
-        }
-
-        $article = Article::create($request->validated());
-
-        $tagsSync->sync($tags, $article);
-
-        if (auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isModerator())) {
-            return redirect()->route('admin.articles.index');
-        }
+        $createArticle->createArticle($request, $tagsSync);
 
         return redirect()->route('articles.index');
     }
@@ -65,21 +54,10 @@ class ArticlesController extends Controller
         return view('articles.edit', compact('article'));
     }
 
-    public function update(Article $article, ArticleFormRequest $request, TagsSynchronizer $tagsSync)
+    public function update(Article $article, ArticleFormRequest $request, TagsSynchronizer $tagsSync, ArticleSavable $updateArticle)
     {
-        $article->update($request->validated());
+        $updateArticle->updateArticle($article, $request, $tagsSync);
 
-        if (request('tags')) {
-            $tags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
-        } else {
-            $tags = collect();
-        }
-
-        $tagsSync->sync($tags, $article);
-
-        if (auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isModerator())) {
-            return redirect()->route('admin.articles.index');
-        }
         return redirect()->route('articles.index');
     }
 
@@ -87,9 +65,6 @@ class ArticlesController extends Controller
     {
         $article->delete();
 
-        if (auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isModerator())) {
-            return redirect()->route('admin.articles.index');
-        }
         return redirect()->route('articles.index');
     }
 }

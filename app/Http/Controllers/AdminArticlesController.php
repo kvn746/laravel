@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+use App\Http\Requests\ArticleFormRequest;
+use App\Services\ArticleSavable;
+use App\Services\TagsSynchronizer;
 
 class AdminArticlesController extends ArticlesController
 {
@@ -11,6 +14,11 @@ class AdminArticlesController extends ArticlesController
         $articles = Article::with('tags')->latest()->get();
 
         return view('admin.articles.index', compact('articles'));
+    }
+
+    public function create()
+    {
+        return view('admin.articles.create');
     }
 
     public function show(Article $article)
@@ -23,5 +31,26 @@ class AdminArticlesController extends ArticlesController
         $this->authorize('update', $article);
 
         return view('admin.articles.edit', compact('article'));
+    }
+
+    public function store(ArticleFormRequest $request, TagsSynchronizer $tagsSync, ArticleSavable $createArticle)
+    {
+        $createArticle->createArticle($request, $tagsSync);
+
+        return redirect()->route('admin.articles.index');
+    }
+
+    public function update(Article $article, ArticleFormRequest $request, TagsSynchronizer $tagsSync, ArticleSavable $updateArticle)
+    {
+        $updateArticle->updateArticle($article, $request, $tagsSync);
+
+        return redirect()->route('admin.articles.index');
+    }
+
+    public function destroy(Article $article)
+    {
+        $article->delete();
+
+        return redirect()->route('admin.articles.index');
     }
 }
