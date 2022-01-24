@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Article;
-use App\Http\FormRequest;
 use App\Http\Requests\ArticleFormRequest;
 use App\Services\TagsSynchronizer;
-use App\Services\ArticleSavable;
+use App\Services\ArticleServiceContract;
 
 class ArticlesController extends Controller
 {
@@ -40,7 +39,7 @@ class ArticlesController extends Controller
         return view('articles.show', compact('article'));
     }
 
-    public function store(ArticleFormRequest $request, TagsSynchronizer $tagsSync, ArticleSavable $createArticle)
+    public function store(ArticleFormRequest $request, TagsSynchronizer $tagsSync, ArticleServiceContract $createArticle)
     {
         $createArticle->createArticle($request, $tagsSync);
 
@@ -54,7 +53,7 @@ class ArticlesController extends Controller
         return view('articles.edit', compact('article'));
     }
 
-    public function update(Article $article, ArticleFormRequest $request, TagsSynchronizer $tagsSync, ArticleSavable $updateArticle)
+    public function update(Article $article, ArticleFormRequest $request, TagsSynchronizer $tagsSync, ArticleServiceContract $updateArticle)
     {
         $updateArticle->updateArticle($article, $request, $tagsSync);
 

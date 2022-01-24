@@ -14,13 +14,15 @@ class ArticleFormRequest extends FormRequest
 
         if (empty(Route::input('article'))) {
             $this->request->set('owner_id', auth()->id());
+            $this->request->add(['slug' => $slug]);
         } else {
             $this->request->set('owner_id', Route::input('article')->owner_id);
+            if (Route::input('article')->slug !== $slug) {
+                $this->request->add(['slug' => $slug]);
+            }
         }
 
-        $this->request->add(['slug' => $slug]);
         $this->request->set('is_public', (bool) $this->request->get('is_public'));
-
     }
 
     public function authorize()

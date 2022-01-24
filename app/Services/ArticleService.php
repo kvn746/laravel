@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Article;
 use App\Http\Requests\ArticleFormRequest;
 
-class ArticleService implements ArticleSavable
+class ArticleService implements ArticleServiceContract
 {
 
     public function createArticle(ArticleFormRequest $request, TagsSynchronizer $tagsSync)
@@ -13,6 +13,8 @@ class ArticleService implements ArticleSavable
         $article = Article::create($request->validated());
 
         $this->updateTags($article, $tagsSync);
+
+        return $article;
     }
 
     public function updateArticle(Article $article, ArticleFormRequest $request, TagsSynchronizer $tagsSync)
@@ -20,6 +22,8 @@ class ArticleService implements ArticleSavable
         $article->update($request->validated());
 
         $this->updateTags($article, $tagsSync);
+
+        return $article;
     }
 
     private function updateTags (Article $article, TagsSynchronizer $tagsSync)
@@ -30,6 +34,6 @@ class ArticleService implements ArticleSavable
             $tags = collect();
         }
 
-        $tagsSync->sync($tags, $article);
+        return $tagsSync->sync($tags, $article);
     }
 }
