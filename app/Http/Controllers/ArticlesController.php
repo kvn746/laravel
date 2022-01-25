@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Article;
-use App\Http\FormRequest;
 use App\Http\Requests\ArticleFormRequest;
 use App\Services\TagsSynchronizer;
+use App\Services\ArticleServiceContract;
 
 class ArticlesController extends Controller
 {
@@ -16,7 +16,15 @@ class ArticlesController extends Controller
 
     public function index()
     {
-        $articles = Article::with('tags')->where('is_public', 1)->latest()->get();
+        $articles = Article::with('tags')
+            ->when(! auth()->check() || (! auth()->user()->isAdmin() && ! auth()->user()->isModerator()), function ($query) {
+                return $query->where('is_public', 1)
+                    ->when(auth()->check(), function ($query) {
+                        return $query->orWhere('owner_id', auth()->user()->id);
+                    });
+            })
+            ->latest()
+            ->get();
 
         return view('articles.index', compact('articles'));
     }
@@ -31,17 +39,9 @@ class ArticlesController extends Controller
         return view('articles.show', compact('article'));
     }
 
-    public function store(ArticleFormRequest $request, TagsSynchronizer $tagsSync)
+    public function store(ArticleFormRequest $request, TagsSynchronizer $tagsSync, ArticleServiceContract $createArticle)
     {
-        if (request('tags')) {
-            $tags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
-        } else {
-            $tags = collect();
-        }
-
-        $article = Article::create($request->validated());
-
-        $tagsSync->sync($tags, $article);
+        $createArticle->createArticle($request, $tagsSync);
 
         return redirect()->route('articles.index');
     }
@@ -53,17 +53,9 @@ class ArticlesController extends Controller
         return view('articles.edit', compact('article'));
     }
 
-    public function update(Article $article, ArticleFormRequest $request, TagsSynchronizer $tagsSync)
+    public function update(Article $article, ArticleFormRequest $request, TagsSynchronizer $tagsSync, ArticleServiceContract $updateArticle)
     {
-        $article->update($request->validated());
-
-        if (request('tags')) {
-            $tags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
-        } else {
-            $tags = collect();
-        }
-
-        $tagsSync->sync($tags, $article);
+        $updateArticle->updateArticle($article, $request, $tagsSync);
 
         return redirect()->route('articles.index');
     }

@@ -12,12 +12,17 @@ class ArticleFormRequest extends FormRequest
     {
         $slug = Services::getSlug($this->request->get('title'));
 
-        if (empty(Route::input('article')) || Route::input('article')->slug !== $slug) {
+        if (empty(Route::input('article'))) {
+            $this->request->set('owner_id', auth()->id());
             $this->request->add(['slug' => $slug]);
+        } else {
+            $this->request->set('owner_id', Route::input('article')->owner_id);
+            if (Route::input('article')->slug !== $slug) {
+                $this->request->add(['slug' => $slug]);
+            }
         }
 
         $this->request->set('is_public', (bool) $this->request->get('is_public'));
-        $this->request->set('owner_id', auth()->id());
     }
 
     public function authorize()

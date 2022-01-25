@@ -19,7 +19,9 @@
            value="{{ old('tags', $article->tags->pluck('name')->implode(',')) }}"
     >
 </div>
-<div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="is_public" name="is_public" <?= old('is_public') || (bool) $article->is_public ? 'checked' : ''?> >
-    <label class="form-check-label" for="is-public">Опубликовать</label>
-</div>
+@editor
+    <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="is_public" name="is_public" <?= old('is_public') || (bool) $article->is_public ? 'checked' : ''?> >
+        <label class="form-check-label" for="is-public">Опубликовать</label>
+    </div>
+@endeditor
