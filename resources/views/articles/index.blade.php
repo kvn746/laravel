@@ -16,7 +16,7 @@
 
                 <p class="blog-post-meta">{{ $article->created_at->toFormattedDateString() }}</p>
 
-                {{ $article->text }}
+                {{ $article->description }}
 
             </article>
         @endforeach
