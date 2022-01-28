@@ -9,7 +9,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Article::class, function (Faker $faker) {
 
-    $title = $faker->unique()->words(rand(3, 5), true);
+    $title = $faker->unique()->sentence(rand(3, 5));
 
     return [
         'title' => $title,
