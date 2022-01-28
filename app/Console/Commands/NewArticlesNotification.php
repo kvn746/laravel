@@ -15,9 +15,9 @@ class NewArticlesNotification extends Command
      * @var string
      */
     protected $signature = 'command:new-articles
-        {period-start : Start date for notification}
-        {period-end : End date for notification, if "0" then current time}
-        {users* : Users for notification}';
+        {users?* : Users for notification}
+        {--period-start=0 : Start date for notification, if "0" a day ago period-end}
+        {--period-end=0 : End date for notification, if "0" then current time}';
 
     /**
      * The console command description.
@@ -43,10 +43,12 @@ class NewArticlesNotification extends Command
      */
     public function handle()
     {
-        $users = User::findOrFail($this->argument('users'));
+        $users = $this->argument('users') ?
+            User::findOrFail($this->argument('users')) :
+            User::all();
 
-        $periodStart = $this->argument('period-start');
-        $periodEnd = $this->argument('period-end') == 0 ? Carbon::now()->toDateTimeString() : $this->argument('period-end');
+        $periodEnd = $this->option('period-end') ? $this->option('period-end') : Carbon::now()->toDateTimeString();
+        $periodStart = $this->option('period-start') ? $this->option('period-start') : Carbon::createFromDate($periodEnd)->subDay()->toDateTimeString();
 
         $period = 'с ' . $periodStart . ' по ' . $periodEnd;
 
