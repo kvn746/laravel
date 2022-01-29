@@ -7,7 +7,10 @@
             <ul>
                 <li>
                     <div>
-                        <a target="_blank" href="/articles/{{ $article->slug }} ">{{ $article->title }} </a>
+                        @component('mail::subcopy')
+                            [{{ $article->title }}]({{ route('articles.show', $article) }})
+{{--                        <a target="_blank" href="{{ route('articles.show', $article) }}">{{ $article->title }} </a>--}}
+                        @endcomponent
                     </div>
                     <div>
                         {{ $article->description }}
@@ -20,7 +23,7 @@
     @endif
 @endcomponent
 
-@component('mail::button', ['url' => '/articles/'])
+@component('mail::button', ['url' => route('articles.index')])
     Перейти к статьям
 @endcomponent
 

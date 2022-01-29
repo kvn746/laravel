@@ -12,12 +12,19 @@ class ArticlesSeeder extends Seeder
      *
      * @return void
      */
+    public $tagSync;
+
+    public function __construct()
+    {
+        $this->tagSync = New TagsSynchronizer;
+    }
+
     public function run()
     {
         factory(Article::class, 30)->create()->each(function (Article $article) {
             $tags = factory(Tag::class, rand(1, 4))->make()->pluck('name');
             $tags = $tags->merge(Tag::inRandomOrder()->limit(rand(2, 4))->get()->pluck('name'));
-            (New TagsSynchronizer())->sync($tags, $article);
+            $this->tagSync->sync($tags, $article);
         });
     }
 }
