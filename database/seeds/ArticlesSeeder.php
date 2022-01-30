@@ -14,9 +14,9 @@ class ArticlesSeeder extends Seeder
      */
     public $tagSync;
 
-    public function __construct()
+    public function __construct(TagsSynchronizer $tagSync)
     {
-        $this->tagSync = New TagsSynchronizer;
+        $this->tagSync = $tagSync;
     }
 
     public function run()
