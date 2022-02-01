@@ -25,15 +25,8 @@ class Pushall
             "title" => $title
         ];
 
-        curl_setopt_array($ch = curl_init(), [
-            CURLOPT_URL => $this->url,
-            CURLOPT_POSTFIELDS => $data,
-            CURLOPT_RETURNTRANSFER => true
-        ]);
+        $client = new \GuzzleHttp\Client(['base_uri' => $this->url]);
 
-        $result = curl_exec($ch);
-        curl_close($ch);
-
-        return $result;
+        return $client->post('', ['form_params' => $data]);
     }
 }
