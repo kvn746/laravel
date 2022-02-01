@@ -25,7 +25,7 @@ class Pushall
             "title" => $title,
         ];
 
-        $client = new \GuzzleHttp\Client(['base_uri' => $this->url]);
+        $client = new \GuzzleHttp\Client(['base_uri' => $this->url, 'verify' => false]);
 
         return $client->post('', ['form_params' => $data]);
     }
