@@ -30,6 +30,7 @@ class SendArticleCreatedNotification
         \Mail::to(Services::getAllAdministratorsEmail())->send(
             new \App\Mail\ArticleCreated($event->article)
         );
+        push_all('Добавлена новая статья', $event->article->title);
         flash('Статья "' . $event->article->title . '" успешно создана!');
     }
 }

@@ -22,7 +22,7 @@ class Pushall
             "id" => $this->id,
             "key" => $this->apiKey,
             "text" => $text,
-            "title" => $title
+            "title" => $title,
         ];
 
         $client = new \GuzzleHttp\Client(['base_uri' => $this->url]);
