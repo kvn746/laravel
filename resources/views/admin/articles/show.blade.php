@@ -16,6 +16,10 @@
 
             @include('admin.articles.tags', ['tags' => $article->tags])
 
+            @include('articles.comments')
+
+            @include('articles.history')
+
         </article>
         <div>
             @can('update', $article)

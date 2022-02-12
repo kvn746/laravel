@@ -22,4 +22,6 @@ Route::get('admin/feedback', 'ContactsController@index')->name('admin.feedback')
 Route::resource('admin/articles', 'AdminArticlesController', ['as' => 'admin']);
 Route::get('/admin/articles/tags/{tag}', 'AdminTagsController@index')->name('admin.articles.tags');
 
+route::post('/comment', 'ArticleCommentsController@store')->name('comment.store');
+
 Auth::routes();

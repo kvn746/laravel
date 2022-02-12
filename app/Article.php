@@ -6,6 +6,7 @@ use App\Events\ArticleCreated;
 use App\Events\ArticleDeleted;
 use App\Events\ArticleUpdated;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class Article extends Model implements Taggable
 {
@@ -16,6 +17,19 @@ class Article extends Model implements Taggable
         'updated' => ArticleUpdated::class,
         'deleted' => ArticleDeleted::class,
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updating(function (Article $article) {
+            $newValue = $article->getDirty();
+            $article->history()->attach(auth()->id(), [
+                'old_value' => json_encode(Arr::only($article->fresh()->toArray(), array_keys($newValue))),
+                'new_value' => json_encode($newValue),
+            ]);
+        });
+    }
 
     public function getRouteKeyName()
     {
@@ -30,5 +44,17 @@ class Article extends Model implements Taggable
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    public function history()
+    {
+        return $this->belongsToMany(User::class, 'article_histories')
+            ->withPivot(['old_value', 'new_value'])->withTimestamps();
+    }
+
+    public function comment()
+    {
+        return $this->belongsToMany(User::class, 'article_comments')
+            ->withPivot(['text'])->withTimestamps();
     }
 }
