@@ -10,7 +10,7 @@ use App\User;
 $factory->define(ArticleComment::class, function (Faker $faker) {
     return [
         'text' => $faker->text(200),
-        'user_id' => User::pluck('id')[rand(0, User::count() - 1)],
-        'article_id' => Article::pluck('id')[rand(0, Article::count() - 1)],
+        'user_id' => factory(User::class),
+        'article_id' => factory(Article::class),
     ];
 });

@@ -14,7 +14,7 @@ $factory->define(Article::class, function (Faker $faker) {
     return [
         'title' => $title,
         'slug' => Services::getSlug($title),
-        'owner_id' => User::pluck('id')[rand(0, User::count() - 1)],
+        'owner_id' => factory(User::class),
         'description' => $faker->text(150),
         'text' => $faker->text(2000),
         'is_public' => 1,

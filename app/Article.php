@@ -24,9 +24,10 @@ class Article extends Model implements Taggable
 
         static::updating(function (Article $article) {
             $newValue = $article->getDirty();
+            $oldValue = Arr::only($article->fresh()->toArray(), array_keys($newValue));
             $article->history()->attach(auth()->id(), [
-                'old_value' => json_encode(Arr::only($article->fresh()->toArray(), array_keys($newValue))),
-                'new_value' => json_encode($newValue),
+                'old_value' => $oldValue,
+                'new_value' => $newValue,
             ]);
         });
     }

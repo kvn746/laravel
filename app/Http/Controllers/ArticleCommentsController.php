@@ -14,7 +14,7 @@ class ArticleCommentsController extends Controller
 
     public function store(CommentFormRequest $request, ArticleComment $comment)
     {
-        $comment::create($request->all());
+        $comment::create($request->validated());
         return redirect()->back();
     }
 }
