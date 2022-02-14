@@ -9,8 +9,8 @@ class ArticleHistory extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'old-value' => 'array',
-        'new-value' => 'array',
+        'old_value' => 'array',
+        'new_value' => 'array',
     ];
 
     public function user()
