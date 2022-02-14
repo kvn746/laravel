@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\ArticleHistory;
 use App\Events\ArticleCreated;
 use App\Events\ArticleDeleted;
 use App\Events\ArticleUpdated;
@@ -24,21 +23,14 @@ class Article extends Model implements Taggable
         parent::boot();
 
         static::updating(function (Article $article) {
-            $history = new ArticleHistory;
+            $articleHistory = new ArticleHistory();
             $newValue = $article->getDirty();
-            $history->create([
+            $articleHistory->create([
                 'article_id' => $article->id,
                 'user_id' => auth()->id(),
                 'new_value' => $newValue,
                 'old_value' => Arr::only($article->fresh()->toArray(), array_keys($newValue)),
             ]);
-
-//            $newValue = $article->getDirty();
-//            $oldValue = Arr::only($article->fresh()->toArray(), array_keys($newValue));
-//            $article->history()->attach(auth()->id(), [
-//                'old_value' => $oldValue,
-//                'new_value' => $newValue,
-//            ]);
         });
     }
 
