@@ -23,10 +23,8 @@ class Article extends Model implements Taggable
         parent::boot();
 
         static::updating(function (Article $article) {
-            $articleHistory = new ArticleHistory();
             $newValue = $article->getDirty();
-            $articleHistory->create([
-                'article_id' => $article->id,
+            $article->history()->create([
                 'user_id' => auth()->id(),
                 'new_value' => $newValue,
                 'old_value' => Arr::only($article->fresh()->toArray(), array_keys($newValue)),
@@ -51,8 +49,7 @@ class Article extends Model implements Taggable
 
     public function history()
     {
-        return $this->belongsToMany(User::class, 'article_histories')
-            ->withPivot(['old_value', 'new_value'])->withTimestamps();
+        return $this->hasMany(ArticleHistory::class, 'article_id');
     }
 
     public function comment()

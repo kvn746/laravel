@@ -15,8 +15,10 @@ class CommentSeeder extends Seeder
      */
     public function run()
     {
-        $articleId = Article::inRandomOrder()->first()->id;
-        $userId = User::inRandomOrder()->first()->id;
-        factory(ArticleComment::class, 100)->create(['article_id' => $articleId, 'user_id' => $userId]);
+        for ($i = 0; $i < 50; $i++) {
+            $articleId = Article::select('id')->inRandomOrder()->first()->id;
+            $userId = User::select('id')->inRandomOrder()->first()->id;
+            factory(ArticleComment::class, 2)->create(['article_id' => $articleId, 'user_id' => $userId]);
+        }
     }
 }
