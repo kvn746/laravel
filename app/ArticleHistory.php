@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class ArticleHistory extends Model
+class ArticleHistory extends Pivot
 {
     protected $guarded = [];
 

@@ -24,10 +24,10 @@ class Article extends Model implements Taggable
 
         static::updating(function (Article $article) {
             $newValue = $article->getDirty();
-            $article->history()->create([
-                'user_id' => auth()->id(),
+            $oldValue = Arr::only($article->fresh()->toArray(), array_keys($newValue));
+            $article->history()->attach(auth()->id(), [
+                'old_value' => $oldValue,
                 'new_value' => $newValue,
-                'old_value' => Arr::only($article->fresh()->toArray(), array_keys($newValue)),
             ]);
         });
     }
@@ -49,7 +49,8 @@ class Article extends Model implements Taggable
 
     public function history()
     {
-        return $this->hasMany(ArticleHistory::class, 'article_id');
+        return $this->belongsToMany(User::class, 'article_histories')
+            ->withPivot(['old_value', 'new_value'])->withTimestamps()->using(ArticleHistory::class);
     }
 
     public function comment()
