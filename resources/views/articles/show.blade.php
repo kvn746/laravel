@@ -16,6 +16,10 @@
 
             @include('articles.tags', ['tags' => $article->tags])
 
+            @include('articles.comments')
+
+            @include('articles.history')
+
         </article>
         <div>
             @editor

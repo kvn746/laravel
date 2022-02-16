@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Http;
+
 class Pushall
 {
     private $apiKey;
@@ -25,8 +27,6 @@ class Pushall
             "title" => $title,
         ];
 
-        $client = new \GuzzleHttp\Client(['base_uri' => $this->url, 'verify' => false]);
-
-        return $client->post('', ['form_params' => $data]);
+        return Http::withoutVerifying()->post($this->url, $data);
     }
 }
