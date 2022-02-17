@@ -17,7 +17,7 @@ class AdminArticlesController extends Controller
 
     public function index()
     {
-        $articles = Article::with('tags')->latest()->get();
+        $articles = Article::with('tags')->latest()->paginate(20);
 
         return view('admin.articles.index', compact('articles'));
     }

@@ -1,4 +1,4 @@
-@extends('layout.master')
+@extends('admin.master')
 
 @section('title', 'Главная')
 

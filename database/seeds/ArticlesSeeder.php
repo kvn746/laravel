@@ -22,11 +22,13 @@ class ArticlesSeeder extends Seeder
 
     public function run()
     {
-        $userId = User::inRandomOrder()->first()->id;
-        factory(Article::class, 30)->create(['owner_id' => $userId])->each(function (Article $article) {
-            $tags = factory(Tag::class, rand(1, 4))->make()->pluck('name');
-            $tags = $tags->merge(Tag::inRandomOrder()->limit(rand(2, 4))->get()->pluck('name'));
-            $this->tagSync->sync($tags, $article);
-        });
+        for ($i = 0; $i < 15; $i++) {
+            $userId = User::inRandomOrder()->first()->id;
+            factory(Article::class, 2)->create(['owner_id' => $userId])->each(function (Article $article) {
+                $tags = factory(Tag::class, rand(1, 4))->make()->pluck('name');
+                $tags = $tags->merge(Tag::inRandomOrder()->limit(rand(2, 4))->get()->pluck('name'));
+                $this->tagSync->sync($tags, $article);
+            });
+        }
     }
 }
