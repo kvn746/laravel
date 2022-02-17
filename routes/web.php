@@ -7,7 +7,7 @@ route::post('/service', 'PushallServiceController@send')->name('service.send');
 
 Route::view('/', 'index')->name('main');
 Route::view('/about', 'about')->name('about');
-Route::view('/admin', 'admin/index')->name('admin');
+Route::get('/admin', 'AdminController@index')->name('admin');
 
 Route::get('/articles/tags/{tag}', 'TagsController@index')->name('articles.tags');
 

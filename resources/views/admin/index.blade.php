@@ -1,6 +1,6 @@
-@extends('admin.master')
+@extends('layout.master')
 
-@section('title', 'Административная')
+@section('title', 'Главная')
 
 @section('content')
     <div class="col-md-8">

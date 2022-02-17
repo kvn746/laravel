@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+use App\Http\Middleware\Admin;
 use App\Http\Requests\ArticleFormRequest;
 use App\Services\ArticleServiceContract;
 use App\Services\TagsSynchronizer;
 
 class AdminArticlesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(Admin::class);
+    }
+
     public function index()
     {
         $articles = Article::with('tags')->latest()->get();
