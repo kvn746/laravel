@@ -35,6 +35,18 @@ class CreateUsersTable extends Migration
                     'role' => 3,
                     'password' => Hash::make('admin'),
                 ],
+                [
+                    'name' => 'Moderator',
+                    'email' => 'kvn746@bugr.ru',
+                    'role' => 2,
+                    'password' => Hash::make('admin'),
+                ],
+                [
+                    'name' => 'AuthUser',
+                    'email' => 'kvn@bugr.com',
+                    'role' => 1,
+                    'password' => Hash::make('admin'),
+                ],
             ]
         );
     }

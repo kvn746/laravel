@@ -18,7 +18,9 @@
 
             @include('articles.comments')
 
-            @include('articles.history')
+            @admin
+                @include('articles.history')
+            @endadmin
 
         </article>
         <div>

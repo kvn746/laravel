@@ -24,7 +24,7 @@ class ArticlesController extends Controller
                     });
             })
             ->latest()
-            ->get();
+            ->paginate(10);
 
         return view('articles.index', compact('articles'));
     }

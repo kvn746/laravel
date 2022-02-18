@@ -38,11 +38,10 @@
     <div class="nav-scroller py-1 mb-2">
         <nav class="nav d-flex ">
             <a class="p-2 link-secondary" href="{{ route('admin') }}">Главная</a>
-{{--            <a class="p-2 link-secondary" href="{{ route('about') }}">О нас</a>--}}
             <a class="p-2 link-secondary" href="{{ route('admin.articles.index') }}">Статьи</a>
-{{--            <a class="p-2 link-secondary" href="{{ route('contacts.create') }}">Контакты</a>--}}
             <a class="p-2 link-secondary" href="{{ route('admin.articles.create') }}">Добавить статью</a>
-{{--            <a class="p-2 link-secondary" href="{{ route('admin.feedback') }}">Сообщения</a>--}}
+            <a class="p-2 link-secondary" href="{{ route('admin.news.index') }}">Новости</a>
+            <a class="p-2 link-secondary" href="{{ route('admin.news.create') }}">Добавить новость</a>
         </nav>
     </div>
 </div>
