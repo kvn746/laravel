@@ -16,7 +16,8 @@ class AdminNewsController extends Controller
 
     public function index()
     {
-        $news = News::latest()
+        $news = News::with('tags')
+            ->latest()
             ->paginate(20);
 
         return view('admin.news.index', compact('news'));

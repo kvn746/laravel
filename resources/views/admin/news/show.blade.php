@@ -14,7 +14,7 @@
 
             {{ $news->text }}
 
-{{--            @include('admin.articles.tags', ['tags' => $news->tags])--}}
+            @include('admin.tags', ['tags' => $news->tags])
 
 {{--            @include('news.comments')--}}
 

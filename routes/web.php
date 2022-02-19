@@ -5,11 +5,9 @@ use Illuminate\Support\Facades\Route;
 route::get('/service', 'PushallServiceController@form')->name('service.form');
 route::post('/service', 'PushallServiceController@send')->name('service.send');
 
-Route::view('/', 'index')->name('main');
+Route::get('/', 'MainPageController@index')->name('main');
 Route::view('/about', 'about')->name('about');
 Route::get('/admin', 'AdminController@index')->name('admin');
-
-Route::get('/articles/tags/{tag}', 'TagsController@index')->name('articles.tags');
 
 Route::resource('articles', 'ArticlesController');
 Route::resource('news', 'NewsController');
@@ -23,7 +21,8 @@ Route::get('admin/feedback', 'ContactsController@index')->name('admin.feedback')
 Route::resource('admin/articles', 'AdminArticlesController', ['as' => 'admin']);
 Route::resource('admin/news', 'AdminNewsController', ['as' => 'admin']);
 
-Route::get('/admin/articles/tags/{tag}', 'AdminTagsController@index')->name('admin.articles.tags');
+Route::get('/tags/{tag}', 'TagsController@index')->name('tags');
+Route::get('/admin/tags/{tag}', 'AdminTagsController@index')->name('admin.tags');
 
 route::post('/comment', 'ArticleCommentsController@store')->name('comment.store');
 

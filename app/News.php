@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class News extends Model
+class News extends Model implements Taggable
 {
     protected $fillable = ['slug', 'title', 'text', 'description', 'is_public', 'owner_id'];
 
@@ -16,5 +16,10 @@ class News extends Model
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 }
