@@ -55,7 +55,6 @@ class Article extends Model implements Taggable
 
     public function comment()
     {
-        return $this->belongsToMany(User::class, 'article_comments')
-            ->withPivot(['text'])->withTimestamps();
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }

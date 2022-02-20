@@ -22,4 +22,9 @@ class News extends Model implements Taggable
     {
         return $this->morphToMany(Tag::class, 'taggable');
     }
+
+    public function comment()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }

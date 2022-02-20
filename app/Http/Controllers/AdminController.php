@@ -16,10 +16,11 @@ class AdminController extends Controller
 
     public function index()
     {
+        $title = ' последние';
         $articles = Article::with('tags')->latest()->paginate(5);
         $news = News::with('tags')->latest()->paginate(5);
 
-        return view('admin.index', compact('articles', 'news'));
+        return view('admin.index', compact('articles', 'news', 'title'));
     }
 
 }

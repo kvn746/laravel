@@ -11,6 +11,7 @@ class CommentFormRequest extends FormRequest
         if (auth() && auth()->id()) {
             $this->request->set('user_id', auth()->id());
         }
+
     }
 
     /**
@@ -35,7 +36,8 @@ class CommentFormRequest extends FormRequest
         return [
             'text' => 'required|min:5|max:200',
             'user_id' => 'required',
-            'article_id' => 'required',
+            'commentable_id' => 'required',
+            'commentable_type' => 'required',
         ];
     }
 
@@ -45,7 +47,7 @@ class CommentFormRequest extends FormRequest
             'text.required' => 'Введите текст комментария',
             'text.min' => 'Текст минимум 5 символов',
             'text.max' => 'Текст максимум 200 символов',
-            'article_id.required' => 'Статья не найдена',
+            'commentable_id.required' => 'Статья не найдена',
             'user_id.required' => 'Вы не авторизованы',
         ];
     }

@@ -16,7 +16,7 @@
 
             @include('layout.tags', ['tags' => $article->tags])
 
-            @include('articles.comments')
+            @include('comments', ['commentObject' => $article])
 
             @admin
                 @include('articles.history')
