@@ -42,6 +42,7 @@
             <a class="p-2 link-secondary" href="{{ route('admin.articles.create') }}">Добавить статью</a>
             <a class="p-2 link-secondary" href="{{ route('admin.news.index') }}">Новости</a>
             <a class="p-2 link-secondary" href="{{ route('admin.news.create') }}">Добавить новость</a>
+            <a class="p-2 link-secondary" href="{{ route('admin.reports') }}">Отчеты</a>
         </nav>
     </div>
 </div>

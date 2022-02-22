@@ -24,6 +24,8 @@ Route::resource('admin/news', 'AdminNewsController', ['as' => 'admin']);
 Route::get('/tags/{tag}', 'TagsController@index')->name('tags');
 Route::get('/admin/tags/{tag}', 'AdminTagsController@index')->name('admin.tags');
 
+Route::get('/reports', 'AdminReportsController@index')->name('admin.reports');
+
 route::post('/comment', 'CommentsController@store')->name('comment.store');
 
 Auth::routes();
