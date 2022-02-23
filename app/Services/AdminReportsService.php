@@ -2,43 +2,39 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\DB;
+use App\News;
+use App\User;
+use App\Article;
 
 class AdminReportsService
 {
     public function getReports()
     {
-        $articles = DB::table('articles')->get();
-        $news = DB::table('news')->get();
-        $biggestArticle = DB::table('articles')->orderBy('text')->limit(1)->first();
-        $smallestArticle = DB::table('articles')->orderByDesc('text')->limit(1)->first();
-        $maxUserArticles = DB::table('users')
-            ->join('articles', 'users.id', '=', 'articles.owner_id')
+        $articles = Article::all();
+        $news = News::all();
+        $biggestArticle = Article::orderBy('text')->limit(1)->first();
+        $smallestArticle = Article::orderByDesc('text')->limit(1)->first();
+        $maxUserArticles = User::join('articles', 'users.id', '=', 'articles.owner_id')
             ->selectRaw('count(?) as count, owner_id, name', ['owner_id'])
             ->groupBy('owner_id')
             ->orderByDesc('count')
             ->first();
-        $averageArticlesCount = DB::table('users')
-            ->join('articles', 'users.id', '=', 'articles.owner_id')
+        $averageArticlesCount = User::join('articles', 'users.id', '=', 'articles.owner_id')
             ->selectRaw('count(?) as count, owner_id', ['owner_id'])
             ->groupBy('owner_id')
             ->havingRaw('count > ?', [1])
             ->pluck('count')
             ->avg();
-        $maxChangedArticle = DB::table('articles')
-            ->join('article_histories', 'articles.id', '=', 'article_histories.article_id')
+        $maxChangedArticle = Article::join('article_histories', 'articles.id', '=', 'article_histories.article_id')
             ->selectRaw('count(?) as count, article_id, title, slug', ['article_id'])
             ->groupBy('article_id')
             ->orderByDesc('count')
             ->first();
-        $maxCommentedArticle = DB::table('articles')
-            ->join('comments', 'articles.id', '=', 'comments.commentable_id')
+        $maxCommentedArticle = Article::join('comments', 'articles.id', '=', 'comments.commentable_id')
             ->selectRaw('count(?) as count, commentable_id, title, slug', ['commentable_id'])
             ->groupBy('commentable_id')
             ->orderByDesc('count')
             ->first();
-
-        //dd(isset($maxCommentedArticle->count) ? $maxCommentedArticle->slug : 'Нет данных');
 
         return [
             'articlesCount' => [
@@ -74,7 +70,7 @@ class AdminReportsService
             'maxUserArticles' => [
                 'name' => 'Автор большинства статей',
                 'value' => $maxUserArticles->count ?? 0,
-                'comment' => isset($maxUserArticles->count) ? $maxUserArticles : 'Нет данных',
+                'comment' => $maxUserArticles->name,
             ],
             'averageArticlesCount' => [
                 'name' => 'Среднее количество статей',
