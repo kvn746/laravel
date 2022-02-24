@@ -18,6 +18,11 @@ class AppServiceProvider extends ServiceProvider
             'App\Services\ArticleServiceContract',
             'App\Services\ArticleService'
         );
+
+        $this->app->singleton(
+            'App\Services\CommentServiceContract',
+            'App\Services\CommentService'
+        );
     }
 
     /**

@@ -16,7 +16,7 @@
 
             @include('admin.tags', ['tags' => $news->tags])
 
-            @include('comments', ['commentObject' => $news])
+            @include('news_comments')
 
 {{--            @include('news.history')--}}
 

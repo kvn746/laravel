@@ -26,6 +26,7 @@ Route::get('/admin/tags/{tag}', 'AdminTagsController@index')->name('admin.tags')
 
 Route::get('/reports', 'AdminReportsController@index')->name('admin.reports');
 
-route::post('/comment', 'CommentsController@store')->name('comment.store');
+route::post('/comment/articles', 'CommentsController@articlesStore')->name('comment.articles.store');
+route::post('/comment/news', 'CommentsController@newsStore')->name('comment.news.store');
 
 Auth::routes();

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Comment;
+use App\Article;
 use App\Http\Requests\CommentFormRequest;
+use App\News;
+use App\Services\CommentServiceContract;
 
 class CommentsController extends Controller
 {
@@ -12,9 +14,15 @@ class CommentsController extends Controller
         $this->middleware('auth');
     }
 
-    public function store(CommentFormRequest $request, Comment $comment)
+    public function articlesStore(CommentFormRequest $request, CommentServiceContract $comment, Article $model)
     {
-        $comment::create($request->validated());
+        $comment->createComment($request, $model);
+        return redirect()->back();
+    }
+
+    public function newsStore(CommentFormRequest $request, CommentServiceContract $comment, News $model)
+    {
+        $comment->createComment($request, $model);
         return redirect()->back();
     }
 }
