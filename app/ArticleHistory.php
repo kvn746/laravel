@@ -13,6 +13,8 @@ class ArticleHistory extends Pivot
         'new_value' => 'array',
     ];
 
+    protected $table = 'article_histories';
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -20,6 +22,6 @@ class ArticleHistory extends Pivot
 
     public function article()
     {
-        return $this->belongsTo(Article::class);
+        return $this->belongsTo(Article::class, 'article_id');
     }
 }

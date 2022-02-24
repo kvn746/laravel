@@ -15,6 +15,6 @@ class Comment extends Model
 
     public function article()
     {
-        return $this->morphTo(Article::class, 'commentable');
+        return $this->belongsTo(Article::class, 'commentable_id');
     }
 }

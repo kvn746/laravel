@@ -2,8 +2,9 @@
 
 namespace App\Services;
 
+use App\ArticleHistory;
+use App\Comment;
 use App\News;
-use App\User;
 use App\Article;
 
 class AdminReportsService
@@ -14,24 +15,20 @@ class AdminReportsService
         $news = News::all();
         $biggestArticle = Article::orderBy('text')->limit(1)->first();
         $smallestArticle = Article::orderByDesc('text')->limit(1)->first();
-        $maxUserArticles = User::join('articles', 'users.id', '=', 'articles.owner_id')
-            ->selectRaw('count(?) as count, owner_id, name', ['owner_id'])
+        $maxUserArticles = Article::selectRaw('count(?) as count, owner_id', ['owner_id'])
             ->groupBy('owner_id')
-            ->orderByDesc('count')
+            ->OrderByDesc('count')
             ->first();
-        $averageArticlesCount = User::join('articles', 'users.id', '=', 'articles.owner_id')
-            ->selectRaw('count(?) as count, owner_id', ['owner_id'])
+        $averageArticlesCount = Article::selectRaw('count(?) as count, owner_id', ['owner_id'])
             ->groupBy('owner_id')
             ->havingRaw('count > ?', [1])
             ->pluck('count')
             ->avg();
-        $maxChangedArticle = Article::join('article_histories', 'articles.id', '=', 'article_histories.article_id')
-            ->selectRaw('count(?) as count, article_id, title, slug', ['article_id'])
+        $maxChangedArticle = ArticleHistory::selectRaw('count(?) as count, article_id', ['article_id'])
             ->groupBy('article_id')
             ->orderByDesc('count')
             ->first();
-        $maxCommentedArticle = Article::join('comments', 'articles.id', '=', 'comments.commentable_id')
-            ->selectRaw('count(?) as count, commentable_id, title, slug', ['commentable_id'])
+        $maxCommentedArticle = Comment::selectRaw('count(?) as count, commentable_id', ['commentable_id'])
             ->groupBy('commentable_id')
             ->orderByDesc('count')
             ->first();
@@ -70,7 +67,7 @@ class AdminReportsService
             'maxUserArticles' => [
                 'name' => 'Автор большинства статей',
                 'value' => $maxUserArticles->count ?? 0,
-                'comment' => $maxUserArticles->name,
+                'comment' => isset($maxUserArticles->owner->name) ? $maxUserArticles->owner->name : 'Нет данных',
             ],
             'averageArticlesCount' => [
                 'name' => 'Среднее количество статей',
@@ -80,12 +77,12 @@ class AdminReportsService
             'maxChangedArticle' => [
                 'name' => 'Самая изменяемая статья',
                 'value' => $maxChangedArticle->count ?? 0,
-                'comment' => isset($maxChangedArticle->count) ? $maxChangedArticle : 'Нет данных',
+                'comment' => isset($maxChangedArticle->article) ? $maxChangedArticle->article : 'Нет данных',
             ],
             'maxCommentedArticle' => [
                 'name' => 'Самая обсуждаемая статья',
                 'value' => $maxCommentedArticle->count ?? '0',
-                'comment' => isset($maxCommentedArticle->count) ? $maxCommentedArticle : 'Нет данных',
+                'comment' => isset($maxCommentedArticle->article) ? $maxCommentedArticle->article : 'Нет данных',
             ],
         ];
     }
