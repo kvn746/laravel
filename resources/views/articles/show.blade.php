@@ -14,9 +14,9 @@
 
             {{ $article->text }}
 
-            @include('articles.tags', ['tags' => $article->tags])
+            @include('layout.tags', ['tags' => $article->tags])
 
-            @include('articles.comments')
+            @include('articles_comments')
 
             @admin
                 @include('articles.history')

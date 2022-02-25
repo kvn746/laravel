@@ -6,7 +6,7 @@
     <hr>
     <div>
         @foreach($tags as $tag)
-            <a href="{{ route('articles.tags', ['tag' => $tag]) }}" class="badge bg-secondary text-white text-decoration-none">{{ $tag->name }}</a>
+            <a href="{{ route('tags', ['tag' => $tag]) }}" class="badge bg-secondary text-white text-decoration-none">{{ $tag->name }}</a>
         @endforeach
     </div>
     <hr>

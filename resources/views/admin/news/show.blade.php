@@ -5,7 +5,7 @@
 @section('content')
     <div class="col-md-8">
         <h3 class="pb-4 mb-4 fst-italic border-bottom">
-            Просмотр статьи
+            Просмотр новости
         </h3>
 
         <article class="blog-post">
@@ -14,9 +14,9 @@
 
             {{ $news->text }}
 
-{{--            @include('admin.articles.tags', ['tags' => $news->tags])--}}
+            @include('admin.tags', ['tags' => $news->tags])
 
-{{--            @include('news.comments')--}}
+            @include('news_comments')
 
 {{--            @include('news.history')--}}
 

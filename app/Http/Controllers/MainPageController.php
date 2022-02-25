@@ -2,25 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Middleware\Admin;
-use Illuminate\Http\Request;
 use App\Article;
 use App\News;
+use Illuminate\Http\Request;
 
-class AdminController extends Controller
+class MainPageController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(Admin::class);
-    }
-
     public function index()
     {
         $title = ' последние';
         $articles = Article::with('tags')->latest()->paginate(5);
         $news = News::with('tags')->latest()->paginate(5);
 
-        return view('admin.index', compact('articles', 'news', 'title'));
+        return view('index', compact('articles', 'news', 'title'));
     }
-
 }

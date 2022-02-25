@@ -16,7 +16,8 @@ class NewsController extends Controller
 
     public function index()
     {
-        $news = News::where('is_public', 1)
+        $news = News::with('tags')
+            ->where('is_public', 1)
             ->latest()
             ->Paginate(10);
 

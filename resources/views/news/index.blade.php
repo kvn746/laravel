@@ -12,7 +12,7 @@
             <article class="blog-post">
                 <h2 class="blog-post-title"><a href="{{ route('news.show', $new) }}">{{ $new->title }}</a></h2>
 
-{{--                @include('articles.tags', ['tags' => $article->tags])--}}
+                @include('layout.tags', ['tags' => $new->tags])
 
                 <p class="blog-post-meta">{{ $new->created_at->toFormattedDateString() }}</p>
 

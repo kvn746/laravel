@@ -39,7 +39,7 @@ class Article extends Model implements Taggable
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 
     public function owner()
@@ -55,7 +55,6 @@ class Article extends Model implements Taggable
 
     public function comment()
     {
-        return $this->belongsToMany(User::class, 'article_comments')
-            ->withPivot(['text'])->withTimestamps();
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }

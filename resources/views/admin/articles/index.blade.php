@@ -5,14 +5,14 @@
 @section('content')
     <div class="col-md-8">
         <h3 class="pb-4 mb-4 fst-italic border-bottom">
-            From the Firehose
+            Статьи
         </h3>
 
         @foreach($articles as $article)
             <article class="blog-post">
                 <h2 class="blog-post-title"><a href="{{ route('admin.articles.show', $article) }}">{{ $article->title }}</a></h2>
 
-                @include('admin.articles.tags', ['tags' => $article->tags])
+                @include('admin.tags', ['tags' => $article->tags])
 
                 <p class="blog-post-meta">{{ $article->created_at->toFormattedDateString() }}</p>
 
