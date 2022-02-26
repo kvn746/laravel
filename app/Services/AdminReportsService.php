@@ -6,9 +6,36 @@ use App\ArticleHistory;
 use App\Comment;
 use App\News;
 use App\Article;
+use App\Tag;
+use App\User;
 
 class AdminReportsService
 {
+    public function getAllArticlesCount()
+    {
+        return Article::all()->count();
+    }
+
+    public function getAllNewsCount()
+    {
+        return News::all()->count();
+    }
+
+    public function getAllCommentsCount()
+    {
+        return Comment::all()->count();
+    }
+
+    public function getAllTagsCount()
+    {
+        return Tag::all()->count();
+    }
+
+    public function getAllUsersCount()
+    {
+        return User::all()->count();
+    }
+
     public function getReports()
     {
         $articles = Article::all();

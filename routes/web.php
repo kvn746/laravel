@@ -30,3 +30,7 @@ route::post('/comment/articles', 'ArticlesCommentsController@store')->name('comm
 route::post('/comment/news', 'NewsCommentsController@store')->name('comment.news.store');
 
 Auth::routes();
+
+route::get('/test/', function () {
+    App\Jobs\StatisticReport::dispatch();
+});
