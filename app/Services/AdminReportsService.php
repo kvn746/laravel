@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\ArticleHistory;
 use App\Comment;
+use App\Http\Requests\StatisticsReportRequest;
 use App\News;
 use App\Article;
 use App\Tag;
@@ -34,6 +35,23 @@ class AdminReportsService
     public function getAllUsersCount()
     {
         return User::all()->count();
+    }
+
+    public function getStatisticReport(StatisticsReportRequest $request)
+    {
+        $reports = [];
+        if ($request->validated()['statistic']) {
+            foreach ($request->validated()['statistic'] as $class) {
+                if (class_exists('App\\' . $class)) {
+                    $reports[] = [
+                        'title' => 'Count of ' . $class . ': ',
+                        'value' => ('App\\' . $class)::all()->count(),
+                    ];
+                }
+            }
+        }
+
+        return $reports;
     }
 
     public function getReports()

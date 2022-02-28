@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Http\Requests\StatisticsReportRequest;
 use App\Services\AdminReportsService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -28,19 +29,9 @@ class StatisticReport implements ShouldQueue
      *
      * @return void
      */
-    public function handle(AdminReportsService $report)
+    public function handle(StatisticsReportRequest $request, AdminReportsService $report)
     {
-        $articles = $report->getAllArticlesCount();
-        $news = $report->getAllNewsCount();
-        $comments = $report->getAllCommentsCount();
-        $tags = $report->getAllTagsCount();
-        $users = $report->getAllUsersCount();
-
-        echo "Articles: " . $articles . PHP_EOL;
-        echo "News: " . $news . PHP_EOL;
-        echo "Comments: " . $comments . PHP_EOL;
-        echo "Tags: " . $tags . PHP_EOL;
-        echo "Users: " . $users . PHP_EOL;
+        $reports = $report->getStatisticReport($request);
     }
 
     public function fail(\Exception $exception = null)
