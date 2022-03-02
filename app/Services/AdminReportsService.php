@@ -5,39 +5,14 @@ namespace App\Services;
 use App\ArticleHistory;
 use App\Comment;
 use App\Http\Requests\StatisticsReportRequest;
+use App\Jobs\StatisticsReport;
 use App\News;
 use App\Article;
-use App\Tag;
-use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class AdminReportsService
 {
-    public function getAllArticlesCount()
-    {
-        return Article::all()->count();
-    }
-
-    public function getAllNewsCount()
-    {
-        return News::all()->count();
-    }
-
-    public function getAllCommentsCount()
-    {
-        return Comment::all()->count();
-    }
-
-    public function getAllTagsCount()
-    {
-        return Tag::all()->count();
-    }
-
-    public function getAllUsersCount()
-    {
-        return User::all()->count();
-    }
-
-    public function getStatisticReport(StatisticsReportRequest $request)
+    public function getStatisticsReport(StatisticsReportRequest $request)
     {
         $reports = [];
         if ($request->validated()['statistic']) {
@@ -50,6 +25,8 @@ class AdminReportsService
                 }
             }
         }
+
+        StatisticsReport::dispatch(Auth::user(), $reports);
 
         return $reports;
     }

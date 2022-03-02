@@ -2,15 +2,15 @@
 
 namespace App\Jobs;
 
-use App\Http\Requests\StatisticsReportRequest;
 use App\Services\AdminReportsService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
 
-class StatisticReport implements ShouldQueue
+class StatisticsReport implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -19,9 +19,14 @@ class StatisticReport implements ShouldQueue
      *
      * @return void
      */
-    public function __construct()
+
+    private $reports;
+    private $user;
+
+    public function __construct($user, $reports)
     {
-        //
+        $this->reports = $reports;
+        $this->user = $user;
     }
 
     /**
@@ -29,9 +34,11 @@ class StatisticReport implements ShouldQueue
      *
      * @return void
      */
-    public function handle(StatisticsReportRequest $request, AdminReportsService $report)
+    public function handle()
     {
-        $reports = $report->getStatisticReport($request);
+        \Mail::to($this->user)->send(
+            new \App\Mail\StatisticsReport($this->reports)
+        );
     }
 
     public function fail(\Exception $exception = null)

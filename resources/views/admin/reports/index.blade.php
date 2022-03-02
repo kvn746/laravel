@@ -34,64 +34,66 @@
             @endforeach
             </tbody>
         </table>
-        <hr>
-        <h6 class="pb-4 mb-4 fst-italic border-bottom">
-            Статистика блога
-        </h6>
+        @admin
+            <hr>
+            <h6 class="pb-4 mb-4 fst-italic border-bottom">
+                Статистика блога
+            </h6>
 
-        <table class="table table-striped" id="statistic">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Отчет</th>
-                <th scope="col">Выбрать</th>
-                <th scope="col">Комментарий</th>
-            </tr>
-            </thead>
-            <tbody>
+            <table class="table table-striped" id="statistic">
+                <thead>
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Статьи</td>
-                    <td>
-                        <input type="checkbox" name="Article" checked>
-                    </td>
-                    <td>Общее количество статей</td>
+                    <th scope="col">#</th>
+                    <th scope="col">Отчет</th>
+                    <th scope="col">Выбрать</th>
+                    <th scope="col">Комментарий</th>
                 </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Новости</td>
-                    <td>
-                        <input type="checkbox" name="News" checked>
-                    </td>
-                    <td>Общее количество новостей</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Комментарии</td>
-                    <td>
-                        <input type="checkbox" name="Comment" checked>
-                    </td>
-                    <td>Общее количество комментариев</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Теги</td>
-                    <td>
-                        <input type="checkbox" name="Tag" checked>
-                    </td>
-                    <td>Общее количество тегов</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Пользователи</td>
-                    <td>
-                        <input type="checkbox" name="User" checked>
-                    </td>
-                    <td>Общее количество пользователей</td>
-                </tr>
-            </tbody>
-        </table>
-        <button type="submit" class="btn btn-primary" onclick="generate('{{ route('statistics') }}', '{{ csrf_token() }}')">Создать отчет</button>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Статьи</td>
+                        <td>
+                            <input type="checkbox" name="Article" checked>
+                        </td>
+                        <td>Общее количество статей</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Новости</td>
+                        <td>
+                            <input type="checkbox" name="News" checked>
+                        </td>
+                        <td>Общее количество новостей</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Комментарии</td>
+                        <td>
+                            <input type="checkbox" name="Comment" checked>
+                        </td>
+                        <td>Общее количество комментариев</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Теги</td>
+                        <td>
+                            <input type="checkbox" name="Tag" checked>
+                        </td>
+                        <td>Общее количество тегов</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Пользователи</td>
+                        <td>
+                            <input type="checkbox" name="User" checked>
+                        </td>
+                        <td>Общее количество пользователей</td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="submit" class="btn btn-primary" onclick="generate('{{ route('statistics') }}', '{{ csrf_token() }}')">Создать отчет</button>
+        @endadmin
         <nav class="blog-pagination" aria-label="Pagination">
 {{--            {{ $news->links() }}--}}
 {{--            <a class="btn btn-outline-primary" href="#">Newer</a>--}}
