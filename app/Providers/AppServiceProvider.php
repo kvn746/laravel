@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Http\Requests\StatisticsReportRequest;
+use App\Services\AdminReportsService;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 
@@ -23,6 +25,20 @@ class AppServiceProvider extends ServiceProvider
             'App\Services\CommentServiceContract',
             'App\Services\CommentService'
         );
+
+//        \Queue::failing(function (\Illuminate\Queue\Events\JobFailed $event) {
+//            $event->exception;
+//            $event->connectionName;
+//            $event->job
+//        });
+
+//        \Queue::before(function (Illuminate\Queue\Events\JobProcessing $event) {
+//
+//        });
+//
+//        \Queue::after(function (Illuminate\Queue\Events\JobProcesed $event) {
+//
+//        });
     }
 
     /**

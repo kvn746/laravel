@@ -4,11 +4,33 @@ namespace App\Services;
 
 use App\ArticleHistory;
 use App\Comment;
+use App\Http\Requests\StatisticsReportRequest;
+use App\Jobs\StatisticsReport;
 use App\News;
 use App\Article;
+use Illuminate\Support\Facades\Auth;
 
 class AdminReportsService
 {
+    public function getStatisticsReport(StatisticsReportRequest $request)
+    {
+        $reports = [];
+        if ($request->validated()['statistic']) {
+            foreach ($request->validated()['statistic'] as $class) {
+                if (class_exists('App\\' . $class)) {
+                    $reports[] = [
+                        'title' => 'Count of ' . $class . ': ',
+                        'value' => ('App\\' . $class)::all()->count(),
+                    ];
+                }
+            }
+        }
+
+        StatisticsReport::dispatch(Auth::user(), $reports);
+
+        return $reports;
+    }
+
     public function getReports()
     {
         $articles = Article::all();

@@ -25,6 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('horizon:snapshot')->everyFiveMinutes();
+
         $schedule->command('command:new-articles', [
             '--period-start' => Carbon::now()->subWeek(),
         ])->weeklyOn(1, '3:00');
