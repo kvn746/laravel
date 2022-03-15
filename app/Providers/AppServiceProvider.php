@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Http\Requests\StatisticsReportRequest;
-use App\Services\AdminReportsService;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 

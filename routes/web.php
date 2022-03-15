@@ -33,6 +33,14 @@ Auth::routes();
 
 route::post('/statistics/', '\App\Services\AdminReportsService@getStatisticsReport')->name('statistics');
 
+route::get('/test/', function () {
+    event(new \App\Events\ArticleDeleted(\App\Article::latest()->first()));
+});
+
+//route::get('/test/', function () {
+//    event(new \App\Events\SomeEvent('Some Text'));
+//});
+
 //route::post('/statistics/', function () {
 //    App\Jobs\StatisticsReport::dispatch();
 //})->name('statistics');

@@ -65,7 +65,7 @@ class ArticlePolicy
      */
     public function delete(User $user, Article $article)
     {
-        //
+        return $article->owner_id == $user->id || $user->isAdmin() || $user->isModerator();
     }
 
     /**
@@ -89,6 +89,6 @@ class ArticlePolicy
      */
     public function forceDelete(User $user, Article $article)
     {
-        //
+        return $article->owner_id == $user->id || $user->isAdmin() || $user->isModerator();
     }
 }

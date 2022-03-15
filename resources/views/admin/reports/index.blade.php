@@ -129,3 +129,5 @@
         });
     }
 </script>
+
+<script src="{{ asset('/js/report.js') }}"></script>

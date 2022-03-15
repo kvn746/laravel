@@ -2,11 +2,8 @@
 
 namespace App\Mail;
 
-use App\Http\Requests\StatisticsReportRequest;
-use App\Services\AdminReportsService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Http\Request;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
