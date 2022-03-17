@@ -37,6 +37,9 @@
             @show
 
         </div>
+
+        <chat></chat>
+
     </main>
 
     @include('layout.footer')

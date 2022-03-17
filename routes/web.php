@@ -33,9 +33,13 @@ Auth::routes();
 
 route::post('/statistics/', '\App\Services\AdminReportsService@getStatisticsReport')->name('statistics');
 
-route::get('/test/', function () {
-    event(new \App\Events\ArticleDeleted(\App\Article::latest()->first()));
-});
+route::post('/chat/', function() {
+    broadcast(new \App\Events\ChatMessage(request('message'), auth()->user()))->toOthers();
+})->middleware('auth');
+
+//route::get('/test/', function () {
+//    event(new \App\Events\ArticleDeleted(\App\Article::latest()->first()));
+//});
 
 //route::get('/test/', function () {
 //    event(new \App\Events\SomeEvent('Some Text'));

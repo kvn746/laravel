@@ -5,6 +5,8 @@ namespace App\Events;
 use App\Article;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -27,7 +29,7 @@ class ArticleUpdated implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return new Channel('articles');
+        return new PresenceChannel('articles');
     }
 
     public function broadcastAs()
@@ -66,7 +68,7 @@ class ArticleUpdated implements ShouldBroadcast
         return [
             'article' => $this->article,
             'history' => $history,
-            'route' => route('admin.articles.show', $this->article),
+            'route' => route('articles.show', $this->article),
             'message' => 'Обновлена статья: ',
         ];
     }
