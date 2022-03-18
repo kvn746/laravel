@@ -1,5 +1,3 @@
-require('./bootstrap');
-
 Echo
     .private('reports')
     .listen('.report-created', (e) => {

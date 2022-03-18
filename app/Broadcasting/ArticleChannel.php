@@ -25,6 +25,10 @@ class ArticleChannel
      */
     public function join(User $user)
     {
-        return ['id' => $user->id, 'name' => $user->name];
+        if ($user->isAdmin() || $user->isModerator()) {
+            return ['id' => $user->id, 'name' => $user->name];
+        }
+
+        return false;
     }
 }
