@@ -1,5 +1,5 @@
 @component('mail::message')
-# Статья удалена: {{ $article->title }}
+# Статья удалена: {{ $title }}
 
 @component('mail::button', ['url' => route('articles.index')])
 К списку статей

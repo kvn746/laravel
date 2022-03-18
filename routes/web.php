@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
-route::get('/service', 'PushallServiceController@form')->name('service.form');
-route::post('/service', 'PushallServiceController@send')->name('service.send');
+Route::get('/service', 'PushallServiceController@form')->name('service.form');
+Route::post('/service', 'PushallServiceController@send')->name('service.send');
 
 Route::get('/', 'MainPageController@index')->name('main');
 Route::view('/about', 'about')->name('about');
@@ -26,25 +26,25 @@ Route::get('/admin/tags/{tag}', 'AdminTagsController@index')->name('admin.tags')
 
 Route::get('/reports', 'AdminReportsController@index')->name('admin.reports');
 
-route::post('/comment/articles', 'ArticlesCommentsController@store')->name('comment.articles.store');
-route::post('/comment/news', 'NewsCommentsController@store')->name('comment.news.store');
+Route::post('/comment/articles', 'ArticlesCommentsController@store')->name('comment.articles.store');
+Route::post('/comment/news', 'NewsCommentsController@store')->name('comment.news.store');
 
 Auth::routes();
 
-route::post('/statistics/', '\App\Services\AdminReportsService@getStatisticsReport')->name('statistics');
+Route::post('/statistics/', '\App\Services\AdminReportsService@getStatisticsReport')->name('statistics');
 
-route::post('/chat/', function() {
+Route::post('/chat/', function() {
     broadcast(new \App\Events\ChatMessage(request('message'), auth()->user()))->toOthers();
 })->middleware('auth');
 
-//route::get('/test/', function () {
+//Route::get('/test/', function () {
 //    event(new \App\Events\ArticleDeleted(\App\Article::latest()->first()));
 //});
 
-//route::get('/test/', function () {
+//Route::get('/test/', function () {
 //    event(new \App\Events\SomeEvent('Some Text'));
 //});
 
-//route::post('/statistics/', function () {
+//Route::post('/statistics/', function () {
 //    App\Jobs\StatisticsReport::dispatch();
 //})->name('statistics');

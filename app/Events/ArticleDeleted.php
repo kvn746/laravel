@@ -14,7 +14,7 @@ class ArticleDeleted implements ShouldBroadcast
 {
     use Dispatchable, SerializesModels, InteractsWithSockets;
 
-    public $article;
+    public $title;
 
     /**
      * Create a new event instance.
@@ -23,7 +23,7 @@ class ArticleDeleted implements ShouldBroadcast
      */
     public function __construct(Article $article)
     {
-        $this->article = $article;
+        $this->title = $article->title;
     }
 
     public function broadcastOn()
@@ -39,7 +39,7 @@ class ArticleDeleted implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'article' => $this->article,
+            'title' => $this->title,
             'message' => 'Удалена статья: ',
         ];
     }

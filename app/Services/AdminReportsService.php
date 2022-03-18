@@ -19,7 +19,7 @@ class AdminReportsService
             if (class_exists('App\\' . $class)) {
                 $reports[] = [
                     'title' => 'Count of ' . $class . ': ',
-                    'value' => ('App\\' . $class)::all()->count(),
+                    'value' => ('App\\' . $class)::count(),
                 ];
             }
         }

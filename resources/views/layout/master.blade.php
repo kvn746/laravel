@@ -20,31 +20,33 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-<div id="app">
-    <chat></chat>
-</div>
-    @include('layout.nav')
 
-    @include('message')
+        @include('layout.nav')
 
-    <main role="main" class="container">
-        <div class="row">
+        @include('message')
 
-            @include('errors')
+        <div id="app">
 
-            @yield('content')
+            <chat></chat>
 
-            @section('sidebar')
-                @include('layout.sidebar')
-            @show
+            <main role="main" class="container">
+                <div class="row">
+
+                    @include('errors')
+
+                    @yield('content')
+
+                    @section('sidebar')
+                        @include('layout.sidebar')
+                    @show
+
+                </div>
+
+            </main>
 
         </div>
 
-
-
-    </main>
-
-    @include('layout.footer')
+        @include('layout.footer')
 
     <script src="{{ asset('js/app.js') }}" defer></script>
 </body>

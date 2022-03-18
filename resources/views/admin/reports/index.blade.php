@@ -9,6 +9,8 @@
             Отчеты
         </h3>
 
+        <reports></reports>
+
         <table class="table table-striped">
             <thead>
             <tr>
@@ -128,12 +130,6 @@
                 //location.reload();
             }
         });
-    }
-
-    window.onload = function() {
-        let text = document.getElementById('app');
-        text.innerHTML = "<reports></reports>";
-        console.log(text);
     }
 </script>
 

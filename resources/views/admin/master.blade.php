@@ -20,26 +20,28 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-<div id="app">
-    <reports></reports>
-</div>
+
     @include('admin.nav')
 
     @include('message')
 
-    <main role="main" class="container">
-        <div class="row">
+    <div id="app">
 
-            @include('errors')
+        <main role="main" class="container">
+            <div class="row">
 
-            @yield('content')
+                @include('errors')
 
-            @section('sidebar')
-                @include('admin.sidebar')
-            @show
+                @yield('content')
 
-        </div>
-    </main>
+                @section('sidebar')
+                    @include('admin.sidebar')
+                @show
+
+            </div>
+        </main>
+
+    </div>
 
     @include('admin.footer')
 

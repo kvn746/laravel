@@ -12,16 +12,16 @@ class ArticleDeleted extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $article;
+    public $title;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Article $article)
+    public function __construct($title)
     {
-        $this->article = $article;
+        $this->title = $title;
     }
 
     /**
