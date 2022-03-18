@@ -20,7 +20,9 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-
+<div id="app">
+    <reports></reports>
+</div>
     @include('admin.nav')
 
     @include('message')

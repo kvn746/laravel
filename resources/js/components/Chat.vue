@@ -66,7 +66,7 @@
                     this.addMessage('Я: ' + message);
 
                     axios
-                        .post('/chat', {message: this.message})
+                        .post('/chat', {message: message})
                         .then(() => {
 
                         })

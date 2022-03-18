@@ -21,4 +21,4 @@ Echo
     .join('articles')
     .listen('.article-deleted', (e) => {
         alert(e.message + e.article.title);
-    });
+   });

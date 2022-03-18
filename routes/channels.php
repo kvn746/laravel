@@ -24,10 +24,6 @@ Broadcast::channel('App.User.{id}', function ($user, $id) {
 
 Broadcast::channel('articles', \App\Broadcasting\ArticleChannel::class);
 
-//Broadcast::channel('articles', function ($user) {
-//    return ['id' => $user->id, 'name' => $user->name];
-//});
-
 Broadcast::channel('reports', \App\Broadcasting\ReportChannel::class);
 
 Broadcast::channel('chat', function ($user) {

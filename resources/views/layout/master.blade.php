@@ -20,7 +20,9 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-
+<div id="app">
+    <chat></chat>
+</div>
     @include('layout.nav')
 
     @include('message')
@@ -38,13 +40,12 @@
 
         </div>
 
-        <chat></chat>
+
 
     </main>
 
     @include('layout.footer')
 
     <script src="{{ asset('js/app.js') }}" defer></script>
-
 </body>
 </html>

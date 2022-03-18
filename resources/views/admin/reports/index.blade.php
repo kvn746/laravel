@@ -3,7 +3,7 @@
 @section('title', 'Отчеты')
 
 @section('content')
-    <reports></reports>
+
     <div class="col-md-8">
         <h3 class="pb-4 mb-4 fst-italic border-bottom">
             Отчеты
@@ -128,6 +128,12 @@
                 //location.reload();
             }
         });
+    }
+
+    window.onload = function() {
+        let text = document.getElementById('app');
+        text.innerHTML = "<reports></reports>";
+        console.log(text);
     }
 </script>
 
