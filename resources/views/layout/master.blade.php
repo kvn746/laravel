@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Laravel Blog - @yield('title')</title>
 
     <!-- Bootstrap core CSS -->
@@ -20,27 +21,33 @@
 </head>
 <body>
 
-    @include('layout.nav')
+        @include('layout.nav')
 
-    @include('message')
+        @include('message')
 
-    <main role="main" class="container">
-        <div class="row">
+        <div id="app">
 
-            @include('errors')
+            <chat></chat>
 
-            @yield('content')
+            <main role="main" class="container">
+                <div class="row">
 
-            @section('sidebar')
-                @include('layout.sidebar')
-            @show
+                    @include('errors')
+
+                    @yield('content')
+
+                    @section('sidebar')
+                        @include('layout.sidebar')
+                    @show
+
+                </div>
+
+            </main>
 
         </div>
-    </main>
 
-    @include('layout.footer')
+        @include('layout.footer')
 
     <script src="{{ asset('js/app.js') }}" defer></script>
-
 </body>
 </html>

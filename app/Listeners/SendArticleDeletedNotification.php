@@ -28,8 +28,8 @@ class SendArticleDeletedNotification
     public function handle(ArticleDeleted $event)
     {
         \Mail::to(Services::getAllAdministratorsEmail())->send(
-            new \App\Mail\ArticleDeleted($event->article)
+            new \App\Mail\ArticleDeleted($event->title)
         );
-        flash('Статья "' . $event->article->title . '" успешно удалена!', 'warning');
+        flash('Статья "' . $event->title . '" успешно удалена!', 'warning');
     }
 }

@@ -8,6 +8,8 @@
             Просмотр статьи
         </h3>
 
+        <article-updated article-id="{{ $article->id }}"></article-updated>
+
         <article class="blog-post">
             <h2 class="blog-post-title">{{ $article->title }}</h2>
             <p class="blog-post-meta">{{ $article->created_at->toFormattedDateString() }}</p>

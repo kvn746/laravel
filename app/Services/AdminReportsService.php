@@ -15,14 +15,12 @@ class AdminReportsService
     public function getStatisticsReport(StatisticsReportRequest $request)
     {
         $reports = [];
-        if ($request->validated()['statistic']) {
-            foreach ($request->validated()['statistic'] as $class) {
-                if (class_exists('App\\' . $class)) {
-                    $reports[] = [
-                        'title' => 'Count of ' . $class . ': ',
-                        'value' => ('App\\' . $class)::all()->count(),
-                    ];
-                }
+        foreach ($request->validated()['statistic'] as $class) {
+            if (class_exists('App\\' . $class)) {
+                $reports[] = [
+                    'title' => 'Count of ' . $class . ': ',
+                    'value' => ('App\\' . $class)::count(),
+                ];
             }
         }
 

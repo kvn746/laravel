@@ -2,46 +2,50 @@
 
 namespace App\Events;
 
-use App\Article;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ArticleCreated implements ShouldBroadcast
+class ReportCreated implements ShouldBroadcast
 {
-    use Dispatchable, SerializesModels, InteractsWithSockets;
+    use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $article;
+    public $report;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Article $article)
+    public function __construct($report)
     {
-        $this->article = $article;
+        $this->report = $report;
     }
 
+    /**
+     * Get the channels the event should broadcast on.
+     *
+     * @return \Illuminate\Broadcasting\Channel|array
+     */
     public function broadcastOn()
     {
-        return new PresenceChannel('articles');
+        return new PrivateChannel('reports');
     }
 
     public function broadcastAs()
     {
-        return 'article-created';
+        return 'report-created';
     }
 
     public function broadcastWith()
     {
         return [
-            'article' => $this->article,
-            'route' => route('articles.show', $this->article),
-            'message' => 'Создана статья: ',
+            'report' => $this->report,
+            'message' => 'Создан отчет: ',
         ];
     }
 }

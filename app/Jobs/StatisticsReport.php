@@ -2,13 +2,12 @@
 
 namespace App\Jobs;
 
-use App\Services\AdminReportsService;
+use App\Events\ReportCreated;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Auth;
 
 class StatisticsReport implements ShouldQueue
 {
@@ -39,6 +38,13 @@ class StatisticsReport implements ShouldQueue
         \Mail::to($this->user)->send(
             new \App\Mail\StatisticsReport($this->reports)
         );
+
+        $report ='';
+        foreach ($this->reports as $item) {
+            $report .=  $item['title'] . $item['value'] . PHP_EOL;
+        }
+
+        event(new ReportCreated($report));
     }
 
     public function fail(\Exception $exception = null)

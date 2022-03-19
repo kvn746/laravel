@@ -5,12 +5,12 @@ namespace App\Events;
 use App\Article;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ArticleCreated implements ShouldBroadcast
+class ArticleUpdatedReload implements ShouldBroadcast
 {
     use Dispatchable, SerializesModels, InteractsWithSockets;
 
@@ -28,20 +28,6 @@ class ArticleCreated implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return new PresenceChannel('articles');
-    }
-
-    public function broadcastAs()
-    {
-        return 'article-created';
-    }
-
-    public function broadcastWith()
-    {
-        return [
-            'article' => $this->article,
-            'route' => route('articles.show', $this->article),
-            'message' => 'Создана статья: ',
-        ];
+        return new Channel('articles.' . $this->article->id);
     }
 }
