@@ -42,8 +42,6 @@ class Tag extends Model
 
     public static function tagsCloud()
     {
-        return \Cache::tags('tags')->remember('tags_cloud' . auth()->id(), 3600, function () {
-            return static::has('articles')->get();
-        });
+        return static::has('articles')->get();
     }
 }
