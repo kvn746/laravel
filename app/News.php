@@ -13,15 +13,15 @@ class News extends Model implements Taggable
         parent::boot();
 
         static::created(function () {
-            \Cache::tags(['tags', 'news'])->flush();
+            \Cache::tags('news')->flush();
         });
 
         static::updated(function () {
-            \Cache::tags(['tags', 'news'])->flush();
+            \Cache::tags('news')->flush();
         });
 
         static::deleted(function () {
-            \Cache::tags(['tags', 'news'])->flush();
+            \Cache::tags('news')->flush();
         });
     }
 

@@ -15,7 +15,7 @@ class NewsController extends Controller
 
     public function index()
     {
-        $news = \Cache::tags('news')->remember('users_news' . auth()->id(), 3600, function () {
+        $news = \Cache::tags(['news', 'tags'])->remember('users_news', 3600, function () {
             return News::with('tags')
                 ->where('is_public', 1)
                 ->latest()

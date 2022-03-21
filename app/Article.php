@@ -32,15 +32,15 @@ class Article extends Model implements Taggable
         });
 
         static::created(function () {
-            \Cache::tags(['articles', 'tags'])->flush();
+            \Cache::tags('articles')->flush();
         });
 
         static::updated(function () {
-            \Cache::tags(['articles', 'tags'])->flush();
+            \Cache::tags('articles')->flush();
         });
 
         static::deleted(function () {
-            \Cache::tags(['articles', 'tags'])->flush();
+            \Cache::tags('articles')->flush();
         });
     }
 

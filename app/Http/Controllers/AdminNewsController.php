@@ -15,7 +15,7 @@ class AdminNewsController extends Controller
 
     public function index()
     {
-        $news = \Cache::tags('news')->remember('admin_news' . auth()->id(), 3600, function () {
+        $news = \Cache::tags(['news', 'tags'])->remember('admin_news', 3600, function () {
             return News::with('tags')
                 ->latest()
                 ->paginate(20);

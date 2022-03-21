@@ -13,15 +13,15 @@ class Tag extends Model
         parent::boot();
 
         static::created(function () {
-            \Cache::tags(['articles', 'tags', 'news'])->flush();
+            \Cache::tags('tags')->flush();
         });
 
         static::updated(function () {
-            \Cache::tags(['articles', 'tags', 'news'])->flush();
+            \Cache::tags('tags')->flush();
         });
 
         static::deleted(function () {
-            \Cache::tags(['articles', 'tags', 'news'])->flush();
+            \Cache::tags('tags')->flush();
         });
     }
 

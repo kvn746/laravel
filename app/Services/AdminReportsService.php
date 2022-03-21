@@ -12,23 +12,17 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminReportsService
 {
-    public $request;
-
     public function getStatisticsReport(StatisticsReportRequest $request)
     {
-        $this->request = $request;
-        $reports = \Cache::tags('reports')->remember('admin_count_report' . auth()->id(), 3600, function () {
-            $reportsArray = [];
-            foreach ($this->request->validated()['statistic'] as $class) {
-                if (class_exists('App\\' . $class)) {
-                    $reportsArray[] = [
-                        'title' => 'Count of ' . $class . ': ',
-                        'value' => ('App\\' . $class)::count(),
-                    ];
-                }
+        $reports = [];
+        foreach ($this->request->validated()['statistic'] as $class) {
+            if (class_exists('App\\' . $class)) {
+                $reportsArray[] = [
+                    'title' => 'Count of ' . $class . ': ',
+                    'value' => ('App\\' . $class)::count(),
+                ];
             }
-            return $reportsArray;
-        });
+        }
 
         StatisticsReport::dispatch(Auth::user(), $reports);
 
