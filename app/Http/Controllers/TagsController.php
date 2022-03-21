@@ -12,8 +12,8 @@ class TagsController extends Controller
     {
         $this->tag = $tag;
         $title = ' с тегом ' . $this->tag->name;
-
-        $articles = \Cache::tags(['tags', 'articles'])->remember('users_tags_article_' . auth()->user()->userRoles->name . $this->tag->name, 3600, function () {
+        $user = auth()->id() ? auth()->user()->userRoles->name : '';
+        $articles = \Cache::tags(['tags', 'articles'])->remember('users_tags_article_' . $user . $this->tag->name, 3600, function () {
             return $this->tag->articles()
                 ->with('tags')
                 ->when(! auth()->check() || (! auth()->user()->isAdmin() && ! auth()->user()->isModerator()), function ($query) {
