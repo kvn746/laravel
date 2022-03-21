@@ -11,7 +11,7 @@ class MainPageController extends Controller
     {
         $title = ' последние';
 
-        $articles = \Cache::tags(['articles', 'tags'])->remember('users_main_article' . auth()->id(), 3600, function () {
+        $articles = \Cache::tags(['articles', 'tags'])->remember('users_main_article_' . auth()->user()->userRoles->name, 3600, function () {
             return Article::with('tags')
                 ->when(! auth()->check() || (! auth()->user()->isAdmin() && ! auth()->user()->isModerator()), function ($query) {
                     return $query->where('is_public', 1)
