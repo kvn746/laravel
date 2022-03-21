@@ -9,38 +9,18 @@ use App\User;
 
 class NewArticlesNotification extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'command:new-articles
         {users?* : Users for notification}
         {--period-start=0 : Start date for notification, if "0" a day ago period-end}
         {--period-end=0 : End date for notification, if "0" then current time}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Notification of new articles for the period';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         parent::__construct();
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
     public function handle()
     {
         $users = $this->argument('users') ?

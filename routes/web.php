@@ -36,15 +36,3 @@ Route::post('/statistics/', '\App\Services\AdminReportsService@getStatisticsRepo
 Route::post('/chat/', function() {
     broadcast(new \App\Events\ChatMessage(request('message'), auth()->user()))->toOthers();
 })->middleware('auth');
-
-//Route::get('/test/', function () {
-//    //
-//});
-
-//Route::get('/test/', function () {
-//    event(new \App\Events\SomeEvent('Some Text'));
-//});
-
-//Route::post('/statistics/', function () {
-//    App\Jobs\StatisticsReport::dispatch();
-//})->name('statistics');

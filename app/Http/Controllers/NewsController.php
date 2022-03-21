@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\News;
 use App\Http\Middleware\Admin;
 use App\Http\Requests\NewsFormRequest;
-use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {

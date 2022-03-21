@@ -9,12 +9,6 @@ if (! function_exists('flash')) {
 }
 
 if (! function_exists('push_all')) {
-
-    /**
-     * @param null $title
-     * @param null $text
-     * @return \App\Services\Pushall|mixed|string
-     */
     function push_all($title = null, $text = null)
     {
         if (is_null($title) || is_null($text)) {

@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use App\Article;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -16,11 +15,6 @@ class ArticleCreated implements ShouldBroadcast
 
     public $article;
 
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
     public function __construct(Article $article)
     {
         $this->article = $article;
