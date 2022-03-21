@@ -16,7 +16,7 @@ class ArticlesController extends Controller
 
     public function index()
     {
-        $articles = \Cache::tags(['articles', 'tags'])->remember('users_article', 3600, function () {
+        $articles = \Cache::tags(['articles', 'tags'])->remember('users_article' . auth()->id(), 3600, function () {
             return Article::with('tags')
                 ->when(! auth()->check() || (! auth()->user()->isAdmin() && ! auth()->user()->isModerator()), function ($query) {
                     return $query->where('is_public', 1)
