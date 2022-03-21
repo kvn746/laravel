@@ -16,10 +16,12 @@ class NewsController extends Controller
 
     public function index()
     {
-        $news = News::with('tags')
-            ->where('is_public', 1)
-            ->latest()
-            ->Paginate(10);
+        $news = \Cache::tags('news')->remember('users_news' . auth()->id(), 3600, function () {
+            return News::with('tags')
+                ->where('is_public', 1)
+                ->latest()
+                ->Paginate(10);
+        });
 
         return view('news.index', compact('news'));
     }

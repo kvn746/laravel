@@ -38,7 +38,7 @@ Route::post('/chat/', function() {
 })->middleware('auth');
 
 //Route::get('/test/', function () {
-//    event(new \App\Events\ArticleDeleted(\App\Article::latest()->first()));
+//    //
 //});
 
 //Route::get('/test/', function () {

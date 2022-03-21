@@ -8,6 +8,23 @@ class News extends Model implements Taggable
 {
     protected $fillable = ['slug', 'title', 'text', 'description', 'is_public', 'owner_id'];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function () {
+            \Cache::tags(['tags', 'news'])->flush();
+        });
+
+        static::updated(function () {
+            \Cache::tags(['tags', 'news'])->flush();
+        });
+
+        static::deleted(function () {
+            \Cache::tags(['tags', 'news'])->flush();
+        });
+    }
+
     public function getRouteKeyName()
     {
         return 'slug';

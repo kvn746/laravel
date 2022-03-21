@@ -8,6 +8,23 @@ class Tag extends Model
 {
     protected $fillable = ['name'];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function () {
+            \Cache::tags(['articles', 'tags', 'news'])->flush();
+        });
+
+        static::updated(function () {
+            \Cache::tags(['articles', 'tags', 'news'])->flush();
+        });
+
+        static::deleted(function () {
+            \Cache::tags(['articles', 'tags', 'news'])->flush();
+        });
+    }
+
     public function getRouteKeyName()
     {
         return 'name';
@@ -25,6 +42,8 @@ class Tag extends Model
 
     public static function tagsCloud()
     {
-        return static::has('articles')->get();
+        return \Cache::tags('tags')->remember('tags_cloud' . auth()->id(), 3600, function () {
+            return static::has('articles')->get();
+        });
     }
 }

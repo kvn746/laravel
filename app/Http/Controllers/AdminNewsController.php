@@ -16,9 +16,11 @@ class AdminNewsController extends Controller
 
     public function index()
     {
-        $news = News::with('tags')
-            ->latest()
-            ->paginate(20);
+        $news = \Cache::tags('news')->remember('admin_news' . auth()->id(), 3600, function () {
+            return News::with('tags')
+                ->latest()
+                ->paginate(20);
+        });
 
         return view('admin.news.index', compact('news'));
     }

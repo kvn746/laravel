@@ -30,6 +30,18 @@ class Article extends Model implements Taggable
                 'new_value' => $newValue,
             ]);
         });
+
+        static::created(function () {
+            \Cache::tags(['articles', 'tags'])->flush();
+        });
+
+        static::updated(function () {
+            \Cache::tags(['articles', 'tags'])->flush();
+        });
+
+        static::deleted(function () {
+            \Cache::tags(['articles', 'tags'])->flush();
+        });
     }
 
     public function getRouteKeyName()
