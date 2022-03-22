@@ -15,9 +15,9 @@ class AdminReportsService
     public function getStatisticsReport(StatisticsReportRequest $request)
     {
         $reports = [];
-        foreach ($request->validated()['statistic'] as $class) {
+        foreach ($this->request->validated()['statistic'] as $class) {
             if (class_exists('App\\' . $class)) {
-                $reports[] = [
+                $reportsArray[] = [
                     'title' => 'Count of ' . $class . ': ',
                     'value' => ('App\\' . $class)::count(),
                 ];
@@ -31,28 +31,43 @@ class AdminReportsService
 
     public function getReports()
     {
-        $articles = Article::all();
-        $news = News::all();
-        $biggestArticle = Article::orderBy('text')->limit(1)->first();
-        $smallestArticle = Article::orderByDesc('text')->limit(1)->first();
-        $maxUserArticles = Article::selectRaw('count(?) as count, owner_id', ['owner_id'])
-            ->groupBy('owner_id')
-            ->OrderByDesc('count')
-            ->first();
-        $averageArticlesCount = Article::selectRaw('count(?) as count, owner_id', ['owner_id'])
-            ->groupBy('owner_id')
-            ->havingRaw('count > ?', [1])
-            ->pluck('count')
-            ->avg();
-        $maxChangedArticle = ArticleHistory::selectRaw('count(?) as count, article_id', ['article_id'])
-            ->groupBy('article_id')
-            ->orderByDesc('count')
-            ->first();
-        $maxCommentedArticle = Comment::selectRaw('count(?) as count, commentable_id', ['commentable_id'])
-            ->groupBy('commentable_id')
-            ->orderByDesc('count')
-            ->first();
-
+        $articles = \Cache::tags('articles')->remember('admin_articles' . auth()->id(), 3600, function () {
+            return Article::all();
+        });
+        $news = \Cache::tags('news')->remember('admin_news' . auth()->id(), 3600, function () {
+            return News::all();
+        });
+        $biggestArticle = \Cache::tags('articles')->remember('admin_biggest_article' . auth()->id(), 3600, function () {
+            return Article::orderBy('text')->limit(1)->first();
+        });
+        $smallestArticle = \Cache::tags('articles')->remember('admin_smallest_article' . auth()->id(), 3600, function () {
+            return Article::orderByDesc('text')->limit(1)->first();
+        });
+        $maxUserArticles = \Cache::tags('articles')->remember('admin_max_user_article' . auth()->id(), 3600, function () {
+            return Article::selectRaw('count(?) as count, owner_id', ['owner_id'])
+                ->groupBy('owner_id')
+                ->OrderByDesc('count')
+                ->first();
+        });
+        $averageArticlesCount = \Cache::tags('articles')->remember('admin_average_article_count' . auth()->id(), 3600, function () {
+            return Article::selectRaw('count(?) as count, owner_id', ['owner_id'])
+                ->groupBy('owner_id')
+                ->havingRaw('count > ?', [1])
+                ->pluck('count')
+                ->avg();
+        });
+        $maxChangedArticle = \Cache::tags('articles')->remember('admin_max_change_article' . auth()->id(), 3600, function () {
+            return ArticleHistory::selectRaw('count(?) as count, article_id', ['article_id'])
+                ->groupBy('article_id')
+                ->orderByDesc('count')
+                ->first();
+        });
+        $maxCommentedArticle = \Cache::tags('comments')->remember('admin_max_commented_article' . auth()->id(), 3600, function () {
+            return Comment::selectRaw('count(?) as count, commentable_id', ['commentable_id'])
+                ->groupBy('commentable_id')
+                ->orderByDesc('count')
+                ->first();
+        });
         return [
             'articlesCount' => [
                 'name' => 'Общее количество статей',

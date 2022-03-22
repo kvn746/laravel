@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Middleware\Admin;
 use App\Http\Requests\NewsFormRequest;
 use App\News;
-use Illuminate\Http\Request;
 
 class AdminNewsController extends Controller
 {
@@ -16,9 +15,11 @@ class AdminNewsController extends Controller
 
     public function index()
     {
-        $news = News::with('tags')
-            ->latest()
-            ->paginate(20);
+        $news = \Cache::tags(['news', 'tags'])->remember('admin_news', 3600, function () {
+            return News::with('tags')
+                ->latest()
+                ->paginate(20);
+        });
 
         return view('admin.news.index', compact('news'));
     }

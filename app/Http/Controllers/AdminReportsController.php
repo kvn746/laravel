@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Middleware\Admin;
-use Illuminate\Http\Request;
 use App\Services\AdminReportsService;
 
 class AdminReportsController extends Controller

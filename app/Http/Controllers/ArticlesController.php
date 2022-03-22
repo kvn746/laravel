@@ -16,15 +16,18 @@ class ArticlesController extends Controller
 
     public function index()
     {
-        $articles = Article::with('tags')
-            ->when(! auth()->check() || (! auth()->user()->isAdmin() && ! auth()->user()->isModerator()), function ($query) {
-                return $query->where('is_public', 1)
-                    ->when(auth()->check(), function ($query) {
-                        return $query->orWhere('owner_id', auth()->user()->id);
-                    });
-            })
-            ->latest()
-            ->paginate(10);
+        $user = auth()->id() ? auth()->user()->userRoles->name : '';
+        $articles = \Cache::tags(['articles', 'tags'])->remember('users_article_' . $user, 3600, function () {
+            return Article::with('tags')
+                ->when(! auth()->check() || (! auth()->user()->isAdmin() && ! auth()->user()->isModerator()), function ($query) {
+                    return $query->where('is_public', 1)
+                        ->when(auth()->check(), function ($query) {
+                            return $query->orWhere('owner_id', auth()->user()->id);
+                        });
+                })
+                ->latest()
+                ->paginate(10);
+        });
 
         return view('articles.index', compact('articles'));
     }

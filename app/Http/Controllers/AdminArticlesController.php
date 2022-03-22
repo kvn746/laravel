@@ -17,7 +17,9 @@ class AdminArticlesController extends Controller
 
     public function index()
     {
-        $articles = Article::with('tags')->latest()->paginate(20);
+        $articles = \Cache::tags(['articles', 'tags'])->remember('admin_article', 3600, function () {
+            return Article::with('tags')->latest()->paginate(20);
+        });
 
         return view('admin.articles.index', compact('articles'));
     }

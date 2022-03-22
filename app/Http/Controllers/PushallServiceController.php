@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Pushall;
-
 class PushallServiceController extends Controller
 {
     public function form()

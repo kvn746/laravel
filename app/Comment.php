@@ -8,6 +8,15 @@ class Comment extends Model
 {
     protected $guarded = [];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function () {
+            \Cache::tags('comments')->flush();
+        });
+    }
+
     public function user()
     {
         return $this->hasOne(User::class,'id', 'user_id');

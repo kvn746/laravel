@@ -14,34 +14,17 @@ class NewArticlesNotification extends Notification
     public $period;
     public $articles;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
     public function __construct($period, $articles)
     {
         $this->period = $period;
         $this->articles = $articles;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function via($notifiable)
     {
         return ['mail'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
     public function toMail()
     {
         return (new MailMessage)
@@ -52,12 +35,6 @@ class NewArticlesNotification extends Notification
             ;
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function toArray($notifiable)
     {
         return [
